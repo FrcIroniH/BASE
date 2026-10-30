@@ -57,6 +57,7 @@ public class Robot extends LoggedRobot {
         // isRedAlliance = true;
 
         Logger.start();
+        new RobotContainer();
 
        PathPlannerLogging.setLogTargetPoseCallback(pose -> Logger.recordOutput("Pathplanner/Current Path Target", pose));
         PathPlannerLogging.setLogActivePathCallback(path -> Logger.recordOutput("Pathplanner/Current Path", path.toArray(new Pose2d[0])));
