@@ -7,8 +7,8 @@ public interface intakeIO {
     public class intakeInputs{
         double PinionRotation;
     }
-    void resetAngleEncoder();
-    void extendTo(double PinionRotation);
-    void extensionPower(double pinionPower);
-    void update(intakeInputs inputs);
+    public void resetAngleEncoder();
+    public void extendTo(double PinionRotation);
+    public void extensionPower(double pinionPower);
+    public void update(intakeInputs inputs);
 }

@@ -8,9 +8,23 @@ import frc.util.MarinersController.MarinersSparkBase.MotorType;
 
 public class intakeIOReal implements intakeIO {
     private final MarinersTalonFX pinionMotor;
-    private final MarinersTalonFX firstRollerMotor;
-    private final MarinersTalonFX secondRollerMotor;
     public intakeIOReal(){
-        pinionMotor = 
+        pinionMotor = new MarinersTalonFX("pinionMotor", intakeConstants.CONTROLLER_LOCATION, intakeConstants.motorID);
+        pinionMotor.setcurrentlimit
+
+
     }
+    void resetAngleEncoder() {
+
+    }
+    void extendTo(double PinionRotation) {
+
+    }
+    void extensionPower(double pinionPower) {
+
+    }
+    void update(intakeInputs inputs) {
+        
+    }
+
 }
