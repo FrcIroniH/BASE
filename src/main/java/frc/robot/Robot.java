@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.Intake.Pivot.PivotConstants.PivotStates;
 import frc.util.Elastic;
 
 
@@ -89,10 +88,6 @@ public class Robot extends LoggedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-
-        RobotContainer.pollAlerts();
-        RobotContainer.updateElastic();
-        RobotContainer.updateLogging();
     }
 
     @Override
@@ -100,12 +95,7 @@ public class Robot extends LoggedRobot {
         Elastic.selectTab(1);
         isRedAlliance = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
         //isRedAlliance = true;
-        RobotContainer.pivot.resetPosition(PivotStates.Closed);
 
-        autonomousCommand = RobotContainer.getAuto();
-        if (autonomousCommand != null){
-            CommandScheduler.getInstance().schedule(autonomousCommand);
-        }
     }
 
     @Override
