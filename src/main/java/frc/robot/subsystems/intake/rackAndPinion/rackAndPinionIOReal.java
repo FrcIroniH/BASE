@@ -1,11 +1,7 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intake.rackAndPinion;
 
-import edu.wpi.first.math.MathUtil;
-import frc.util.MarinersController.MarinersController;
 import frc.util.MarinersController.MarinersTalonFX;
-import frc.util.MarinersController.MarinersSparkBase;
 import frc.util.MarinersController.MarinersController.ControlMode;
-import frc.util.MarinersController.MarinersSparkBase.MotorType;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 
 public class rackAndPinionIOReal implements rackAndPinionIO {
@@ -24,8 +20,7 @@ public class rackAndPinionIOReal implements rackAndPinionIO {
         
         
     }
-    public void update(intakeInputs inputs) {
+    public void update(rackAndPinionInputs inputs) {
         inputs.PinionRotation = pinionMotor.getPosition();
     }
-
 }

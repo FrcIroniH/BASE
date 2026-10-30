@@ -1,12 +1,13 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intake.rackAndPinion;
 
 import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.intake.rackAndPinionIO.rackAndPinionInputs;
 
 public class rackAndPinionSubsystem extends SubsystemBase {
     rackAndPinionIO io;
-    rackAndPinionInputsAutologged inputs = new rackAndPinionIpnputAutologged();
+    rackAndPinionInputsAutoLogged inputs = new rackAndPinionInputsAutoLogged();
     
     public rackAndPinionSubsystem() {
         io = new rackAndPinionIOReal();
@@ -15,7 +16,10 @@ public class rackAndPinionSubsystem extends SubsystemBase {
         io.resetAngleEncoder();
     }
     public void extend() {
-        io.extendTo();
+        io.extendTo(rackAndPinionConstants.pinionRotation);
+    }
+    public void retract() {
+        io.extendTo(0);
     }
     @Override
     public void periodic() {
