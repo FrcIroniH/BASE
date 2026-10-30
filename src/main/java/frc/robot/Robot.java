@@ -52,11 +52,14 @@ public class Robot extends LoggedRobot {
 
         SignalLogger.enableAutoLogging(false);
         DataLogManager.stop();
+        
 
         isRedAlliance = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
         // isRedAlliance = true;
 
         Logger.start();
+        new RobotContainer();
+
 
        PathPlannerLogging.setLogTargetPoseCallback(pose -> Logger.recordOutput("Pathplanner/Current Path Target", pose));
         PathPlannerLogging.setLogActivePathCallback(path -> Logger.recordOutput("Pathplanner/Current Path", path.toArray(new Pose2d[0])));
