@@ -1,4 +1,4 @@
-package frc.robot.subsystems.intake.rackAndPinion;
+package frc.robot.subsystems.Intake.rackAndPinion;
 
 import org.littletonrobotics.junction.AutoLog;
 

@@ -1,9 +1,8 @@
-package frc.robot.subsystems.intake.rackAndPinion;
+package frc.robot.subsystems.Intake.rackAndPinion;
 
 import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.intake.rackAndPinionIO.rackAndPinionInputs;
 
 public class rackAndPinionSubsystem extends SubsystemBase {
     rackAndPinionIO io;

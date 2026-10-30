@@ -1,4 +1,4 @@
-package frc.robot.subsystems.intake.rackAndPinion;
+package frc.robot.subsystems.Intake.rackAndPinion;
 
 import frc.util.MarinersController.MarinersController.ControllerLocation;
 public class rackAndPinionConstants {
@@ -7,5 +7,5 @@ public class rackAndPinionConstants {
     public static final int currentLimit = 100;
     public static final int currentThreshhold = 80;
     public static final double MAX_PINION_POWER = 1;
-    public static final double pinionRotation = 1;
+    public static final double pinionRotation = 2;
 }
