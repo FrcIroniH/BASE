@@ -11,6 +11,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 /** Add your docs here. */
 public class RollersIOReal implements RollersIO {
     private final MarinersTalonFX FirstMotor;
+    private final MarinersTalonFX SecendMotor;
 
     public RollersIOReal(){
         FirstMotor = new MarinersTalonFX("Intake/First Rollers Motor", RollerConstants.CONTROLLER_LOCATION,
@@ -19,9 +20,17 @@ public class RollersIOReal implements RollersIO {
         FirstMotor.setCurrentLimits(RollerConstants.CURRENT_LIMIT, RollerConstants.CURRENT_THRESHOLD);
         FirstMotor.setMotorInverted(RollerConstants.IS_INVERTED);
         FirstMotor.setProfile(new Constraints(RollerConstants.maxVelocity, RollerConstants.acceleration));
+        SecendMotor = new MarinersTalonFX("Intake/Secend Rollers Motor", RollerConstants.CONTROLLER_LOCATION,
+                                    RollerConstants.SEC_MOTOR_ID);
+
+        SecendMotor.setCurrentLimits(RollerConstants.CURRENT_LIMIT, RollerConstants.CURRENT_THRESHOLD);
+        SecendMotor.setMotorInverted(RollerConstants.IS_SEC_INVERTED);
+        SecendMotor.setProfile(new Constraints(RollerConstants.maxVelocity, RollerConstants.acceleration));
     }
+
 
     public void setDutyCycle(double dutyCycle){
         FirstMotor.setDutyCycle(dutyCycle);
+        SecendMotor.setDutyCycle(dutyCycle);
     }
 }
