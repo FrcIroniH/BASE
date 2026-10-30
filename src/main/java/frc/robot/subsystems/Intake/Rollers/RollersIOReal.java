@@ -7,6 +7,7 @@ package frc.robot.subsystems.Intake.Rollers;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.util.MarinersController.MarinersTalonFX;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.units.Measure;
 
 /** Add your docs here. */
 public class RollersIOReal implements RollersIO {
@@ -20,12 +21,16 @@ public class RollersIOReal implements RollersIO {
         FirstMotor.setCurrentLimits(RollerConstants.CURRENT_LIMIT, RollerConstants.CURRENT_THRESHOLD);
         FirstMotor.setMotorInverted(RollerConstants.IS_INVERTED);
         FirstMotor.setProfile(new Constraints(RollerConstants.maxVelocity, RollerConstants.acceleration));
+        FirstMotor.getMeasurements().setGearRatio(RollerConstants.GEAR_RATIO);
+
         SecendMotor = new MarinersTalonFX("Intake/Secend Rollers Motor", RollerConstants.CONTROLLER_LOCATION,
                                     RollerConstants.SEC_MOTOR_ID);
 
         SecendMotor.setCurrentLimits(RollerConstants.CURRENT_LIMIT, RollerConstants.CURRENT_THRESHOLD);
         SecendMotor.setMotorInverted(RollerConstants.IS_SEC_INVERTED);
         SecendMotor.setProfile(new Constraints(RollerConstants.maxVelocity, RollerConstants.acceleration));
+        SecendMotor.getMeasurements().setGearRatio(RollerConstants.GEAR_RATIO);
+
     }
 
 
