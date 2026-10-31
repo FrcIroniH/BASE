@@ -9,7 +9,8 @@ public class rackAndPinionIOReal implements rackAndPinionIO {
     public rackAndPinionIOReal(){
         pinionMotor = new MarinersTalonFX("pinionMotor", rackAndPinionConstants.CONTROLLER_LOCATION, rackAndPinionConstants.motorID);
         pinionMotor.setCurrentLimits(rackAndPinionConstants.currentLimit, rackAndPinionConstants.currentThreshhold);
-        pinionMotor.setProfile(new Constraints(0.405, 0.2));
+        pinionMotor.setProfile(new Constraints(rackAndPinionConstants.maxVelocity, rackAndPinionConstants.maxAcceleration));
+        pinionMotor.setMotorInverted(rackAndPinionConstants.isInverted);
 
     }
     public void resetAngleEncoder() {

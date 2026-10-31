@@ -19,7 +19,7 @@ public class kickerOn extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Kicker.setDutyCycle(kickerConstants.DUTY_CYCLE);
+    Kicker.SetDutyCycle(kickerConstants.DUTY_CYCLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

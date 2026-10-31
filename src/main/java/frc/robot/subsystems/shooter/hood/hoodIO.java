@@ -8,4 +8,6 @@ public interface hoodIO {
         double hoodOpen;
     }
     void resetAngleEncoder();
+    void openToPposition(double openPositon);
+    void update(hoodIOInputs inputs);
 }

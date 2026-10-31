@@ -1,5 +1,16 @@
 package frc.robot.subsystems.shooter.kicker;
 
-public class kickerSubsystem {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+public class kickerSubsystem extends SubsystemBase {
+    kickerIO io;
+    public kickerSubsystem() {
+        io = new kickerIOReal();
+    }
+    public void SetDutyCycle(double dutyCycle) {
+        io.dutyCycle(dutyCycle);
+    }
+    public void stop() {
+        io.dutyCycle(0);
+    }
 }

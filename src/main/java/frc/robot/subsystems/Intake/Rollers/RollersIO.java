@@ -8,5 +8,5 @@ public interface RollersIO {
     class RollersInputs {
 
     }
-    public void setDutyCycle(double dutyCycle);
+    void setDutyCycle(double dutyCycle);
 }

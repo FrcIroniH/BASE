@@ -1,8 +1,5 @@
 package frc.robot.subsystems.shooter.kicker;
 
-import static edu.wpi.first.units.Units.Meters;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.units.measure.Distance;
 import frc.util.MarinersController.MarinersController.ControllerLocation;
 import frc.util.MarinersController.MarinersSparkBase.MotorType;
 
@@ -17,4 +14,5 @@ public class kickerConstants {
     public static final boolean LEAD_MOTOR_IS_INVERTED = true;
     public static final boolean FOLLOW_MOTOR_INVERTED_FROM_LEAD = false;
     public static final double KICKER_EJECT_SPEED = -0.8;
+    public static final double DUTY_CYCLE = 0.8;
 }
