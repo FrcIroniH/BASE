@@ -10,4 +10,5 @@ public interface flyWheelIO {
     }
     void setRPM(double RPM);
     void update(flyWheelInputs inputs);
+    void setVoltage(double volts);
 }

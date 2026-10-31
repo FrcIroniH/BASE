@@ -13,7 +13,6 @@ public class flyWheelIOReal implements flyWheelIO {
 
     public flyWheelIOReal(Supplier<Pose2d> poseSupplier) {
         distanceSupplier = flyWheelConstants.distanceToHub(poseSupplier);
-
         leadFlyWheel = new MarinersTalonFX("Shooter/Lead flywheel Motor", flyWheelConstants.CONTROLLER_LOCATION, flyWheelConstants.MOTOR_ID);
         leadFlyWheel.setCurrentLimits(flyWheelConstants.CURRENT_LIMIT, flyWheelConstants.CURRENT_THRESHOLD);
         leadFlyWheel.setMotorInverted(flyWheelConstants.IS_INVERTED);
@@ -38,4 +37,9 @@ public class flyWheelIOReal implements flyWheelIO {
         inputs.currentRPM = leadFlyWheel.getVelocity() * 60.0;
         inputs.distanceToHub = distanceSupplier.get();
     }
+    @Override
+    public void setVoltage(double volts) {
+        leadFlyWheel.setVoltage(volts);
+    }
 }
+
