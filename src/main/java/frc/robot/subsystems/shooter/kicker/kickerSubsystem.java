@@ -8,9 +8,9 @@ public class kickerSubsystem extends SubsystemBase {
         io = new kickerIOReal();
     }
     public void SetDutyCycle(double dutyCycle) {
-        io.dutyCycle(dutyCycle);
+        io.setDutyCycle(dutyCycle);
     }
     public void stop() {
-        io.dutyCycle(0);
+        io.setDutyCycle(0);
     }
 }

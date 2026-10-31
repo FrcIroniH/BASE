@@ -2,11 +2,17 @@ package frc.robot.subsystems.shooter.hood;
 
 import frc.util.MarinersController.MarinersTalonFX;
 import frc.util.MarinersController.MarinersController.ControlMode;
+import edu.wpi.first.math.geometry.Pose2d;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 
 public class hoodIOReal implements hoodIO {
     private final MarinersTalonFX hoodMotor;
-    public hoodIOReal() {
+    private final Supplier<Double> distanceSupplier;
+    public hoodIOReal(Supplier<Pose2d> poseSupplier) {
+        distanceSupplier = hoodConstants.distanceToHub(poseSupplier);
         hoodMotor = new MarinersTalonFX("hoodMotor", hoodConstants.CONTROLLER_LOCATION, hoodConstants.motorID);
         hoodMotor.setCurrentLimits(hoodConstants.currentLimit, hoodConstants.currentThreshhold);
         hoodMotor.setProfile(new Constraints(hoodConstants.maxVelocity, hoodConstants.maxAcceleration));
@@ -20,5 +26,6 @@ public class hoodIOReal implements hoodIO {
     }
     public void update(hoodIOInputs inputs) {
         inputs.hoodOpen = hoodMotor.getPosition();
+        inputs.distanceToHub = distanceSupplier.get();
     }
 }

@@ -8,14 +8,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class closeHood extends Command {
+  private final hoodSubsystem Hood;
   /** Creates a new closeHood. */
-  public closeHood() {
+  public closeHood(hoodSubsystem hood) {
+    Hood = hood;
+    addRequirements(hood);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Hood.close();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

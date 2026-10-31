@@ -6,6 +6,7 @@ public interface hoodIO {
     @AutoLog
     public class hoodIOInputs {
         double hoodOpen;
+        double distanceToHub;
     }
     void resetAngleEncoder();
     void openToPposition(double openPositon);
