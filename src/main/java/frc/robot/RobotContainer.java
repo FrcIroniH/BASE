@@ -1,9 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.Intake.Rollers.RollerCommands;
-import frc.robot.subsystems.Intake.Rollers.RollerConstants;
 import frc.robot.subsystems.Intake.Rollers.Rollers;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullRetraction;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullExtension;
@@ -18,7 +18,7 @@ public class RobotContainer {
         roller = new Rollers();
         rackAndPinion = new rackAndPinionSubsystem();
         driveController = new CommandPS5Controller(0);
-        driveController.L2().whileTrue(new RollerCommands(roller));
+        driveController.L2().whileTrue(new SequentialCommandGroup(new WaitCommand(0.1), new RollerCommands(roller)));
         driveController.L2().onTrue(new intakeFullExtension(rackAndPinion));
         driveController.L1().onTrue(new intakeFullRetraction(rackAndPinion));
     }

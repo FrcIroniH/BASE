@@ -23,7 +23,7 @@ public class rackAndPinionSubsystem extends SubsystemBase {
     }
     @Override
     public void periodic() {
-    io.update(inputs);
+        io.update(inputs);
         if (inputs.stalled) {
             io.stop();
         }
