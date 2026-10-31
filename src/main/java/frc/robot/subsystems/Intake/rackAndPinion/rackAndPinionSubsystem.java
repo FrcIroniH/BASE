@@ -11,6 +11,7 @@ public class rackAndPinionSubsystem extends SubsystemBase {
     public rackAndPinionSubsystem() {
         io = new rackAndPinionIOReal();
     }
+    
     public void resetAngleEncoder(){
         io.resetAngleEncoder();
     }
@@ -22,6 +23,13 @@ public class rackAndPinionSubsystem extends SubsystemBase {
     }
     @Override
     public void periodic() {
-        io.update(inputs);
+    io.update(inputs);
+        if (inputs.stalled) {
+            io.stop();
+        }
+    }
+
+    public boolean isStalled() {
+        return inputs.stalled;
     }
 }

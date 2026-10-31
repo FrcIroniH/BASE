@@ -20,9 +20,6 @@ public class RobotContainer {
         driveController = new CommandPS5Controller(0);
         driveController.L2().whileTrue(new RollerCommands(roller));
         driveController.L2().onTrue(new intakeFullExtension(rackAndPinion));
-
         driveController.L1().onTrue(new intakeFullRetraction(rackAndPinion));
-
-
     }
 }
