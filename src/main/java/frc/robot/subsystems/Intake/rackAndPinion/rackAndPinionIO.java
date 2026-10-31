@@ -9,8 +9,8 @@ public interface rackAndPinionIO {
         double current;
         boolean stalled;
     }
-    public void resetAngleEncoder();
-    public void extendTo(double PinionRotation);
-    public void update(rackAndPinionInputs inputs);
-    public void stop();
+    void resetAngleEncoder();
+    void extendTo(double PinionRotation);
+    void update(rackAndPinionInputs inputs);
+    void stop();
 }
