@@ -24,12 +24,13 @@ public class openHood extends Command {
   @Override
   public void initialize() {
     double target = TargetPositionSupplier.getAsDouble();
-    Hood.open(target);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+        Hood.open();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

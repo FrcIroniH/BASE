@@ -8,6 +8,6 @@ public class RobotContainer {
 
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
-        driveController.L2().hoodOpen(hood); 
+
     }
 }

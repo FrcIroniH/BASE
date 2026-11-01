@@ -17,8 +17,8 @@ public class hoodSubsystem extends SubsystemBase {
     public void resetAngleEncoder() {
         io.resetAngleEncoder();
     }
-    public void open(Supplier<Pose2d> poseSupplier) {
-        io.openToPposition(hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS * hoodConstants.DISTANCE_TO_ANGLE_PRECENT.get(hoodConstants.distanceToHub(poseSupplier)));
+    public void open() {
+        io.openToPposition(hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS * hoodConstants.DISTANCE_TO_ANGLE_PRECENT.get(inputs.distanceToHub));
     }
     @Override
     public void periodic() {
