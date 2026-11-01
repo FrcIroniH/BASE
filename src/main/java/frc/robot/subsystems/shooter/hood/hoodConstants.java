@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.util.PIDFGains;
+
 
 public class hoodConstants {
     public static final ControllerLocation CONTROLLER_LOCATION = ControllerLocation.RIO;
