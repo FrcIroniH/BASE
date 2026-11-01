@@ -1,13 +1,5 @@
 package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-<<<<<<< Updated upstream
-
-public class RobotContainer {
-    public static CommandPS5Controller driveController;
-
-    public RobotContainer(){
-        driveController = new CommandPS5Controller(0);
-=======
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.DriveTrain.DriveBase;
 import frc.robot.subsystems.shooter.flywheel.flyWheelCommand;
@@ -42,6 +34,5 @@ public class RobotContainer {
             hoodSysId.dynamic(Direction.kForward).alongWith(flywheelSysId.dynamic(Direction.kForward)));
         driveController.triangle().whileTrue(
             hoodSysId.dynamic(Direction.kReverse).alongWith(flywheelSysId.dynamic(Direction.kReverse)));
->>>>>>> Stashed changes
     }
 }
