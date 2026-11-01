@@ -15,9 +15,10 @@ public class hoodIOReal implements hoodIO {
         distanceSupplier = hoodConstants.distanceToHub(poseSupplier);
         hoodMotor = new MarinersTalonFX("hoodMotor", hoodConstants.CONTROLLER_LOCATION, hoodConstants.motorID);
         hoodMotor.setCurrentLimits(hoodConstants.currentLimit, hoodConstants.currentThreshhold);
-        hoodMotor.setProfile(new Constraints(hoodConstants.maxVelocity, hoodConstants.maxAcceleration));
         hoodMotor.setMotorInverted(hoodConstants.isInverted);
         hoodMotor.setMotorIdleMode(true);
+        hoodMotor.setPIDF(hoodConstants.PID);
+
     }
     public void resetAngleEncoder() {
         hoodMotor.resetMotorEncoder();
