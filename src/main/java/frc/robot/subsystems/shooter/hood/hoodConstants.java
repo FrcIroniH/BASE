@@ -10,11 +10,10 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.util.PIDFGains;
 
-
 public class hoodConstants {
     public static final ControllerLocation CONTROLLER_LOCATION = ControllerLocation.RIO;
     public static final double KS = 0.1; 
-    public static final double KV = 0.36;  
+    public static final double KV = 0.36;
     public static final PIDFGains PID = new PIDFGains(0.05, 0, 0, KV);
     public static final int motorID = 0;
     public static final int currentLimit = 100;
@@ -43,7 +42,6 @@ public class hoodConstants {
             return BLUE_HUB_CENTER;
         }
     }
-    
 
     public static Supplier<Double> distanceToHub(Supplier<Pose2d> poseSupplier) {
         return () -> {

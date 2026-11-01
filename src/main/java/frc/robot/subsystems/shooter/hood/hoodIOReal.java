@@ -3,10 +3,7 @@ package frc.robot.subsystems.shooter.hood;
 import frc.util.MarinersController.MarinersTalonFX;
 import frc.util.MarinersController.MarinersController.ControlMode;
 import edu.wpi.first.math.geometry.Pose2d;
-
 import java.util.function.Supplier;
-
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 
 public class hoodIOReal implements hoodIO {
     private final MarinersTalonFX hoodMotor;
@@ -18,7 +15,6 @@ public class hoodIOReal implements hoodIO {
         hoodMotor.setMotorInverted(hoodConstants.isInverted);
         hoodMotor.setMotorIdleMode(true);
         hoodMotor.setPIDF(hoodConstants.PID);
-
     }
     public void resetAngleEncoder() {
         hoodMotor.resetMotorEncoder();
