@@ -31,7 +31,6 @@ public class flyWheelsubsystem extends SubsystemBase {
         io.setVoltage(0);
     }
 
-    /** true when the flywheel is spinning and within tolerance of its target */
     public boolean atSpeed() {
         return targetRPM > 0 && Math.abs(inputs.currentRPM - targetRPM) < flyWheelConstants.RPM_TOLERANCE;
     }
@@ -45,8 +44,6 @@ public class flyWheelsubsystem extends SubsystemBase {
         Logger.recordOutput("Shooter/Flywheel/DistanceToHub", distanceToHub);
         Logger.recordOutput("Shooter/Flywheel/TargetRPM", targetRPM);
         Logger.recordOutput("Shooter/Flywheel/AtSpeed", atSpeed());
-        Logger.recordOutput("Shooter/Flywheel/OutOfTableRange",
-            distanceToHub < flyWheelConstants.MIN_TABLE_DISTANCE || distanceToHub > flyWheelConstants.MAX_TABLE_DISTANCE);
     }
     public void setVoltage(Voltage voltage) {
         targetRPM = 0;

@@ -18,11 +18,15 @@ public class flyWheelIOReal implements flyWheelIO {
         followFlyWheel.setCurrentLimits(flyWheelConstants.CURRENT_LIMIT, flyWheelConstants.CURRENT_THRESHOLD);
         followFlyWheel.getMeasurements().setGearRatio(flyWheelConstants.GEAR_RATIO);
         followFlyWheel.setMotorAsFollower(leadFlyWheel, flyWheelConstants.IS_FOLLOWER_INVERTED_FROM_LEAD);
+        followFlyWheel.setPIDF(flyWheelConstants.PID);
+        followFlyWheel.setStaticFeedForward(flyWheelConstants.KS);
     }
 
     @Override
     public void setRPM(double RPM) {
         leadFlyWheel.setReference(RPM / 60.0, ControlMode.Velocity);
+        followFlyWheel.setReference(RPM / 60.0, ControlMode.Velocity);
+
     }
 
     @Override

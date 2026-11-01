@@ -21,7 +21,6 @@ public class hoodSubsystem extends SubsystemBase {
     public hoodSubsystem(Supplier<Pose2d> poseSupplier) {
         this.poseSupplier = poseSupplier;
         io = new hoodIOReal();
-        // assumes the hood is fully closed when the robot boots
         resetAngleEncoder();
     }
     public void resetAngleEncoder() {
@@ -31,11 +30,9 @@ public class hoodSubsystem extends SubsystemBase {
         targetPosition = hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS * flyWheelConstants.getHoodPercent(distanceToHub);
         io.openToPosition(targetPosition);
     }
-    /** true when the hood is within tolerance of its last commanded position */
     public boolean atAngle() {
         return Math.abs(inputs.hoodOpen - targetPosition) < hoodConstants.POSITION_TOLERANCE_IN_MOTOR_ROTATIONS;
     }
-    /** used by SysId - drives the motor directly, the soft limits still stop it at the ends of travel */
     public void setVoltage(Voltage voltage) {
         io.setVoltage(voltage.in(Volts));
     }

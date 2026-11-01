@@ -16,8 +16,7 @@ public class flyWheelConstants {
     public static final int SEC_MOTOR_ID = 24;
     public static final boolean IS_INVERTED = false;
     public static final boolean IS_FOLLOWER_INVERTED_FROM_LEAD = true; 
-    // TODO: verify on the robot - the top of SHOT_TABLE needs ~193 motor rps at a 3:1 reduction,
-    // which is above a Kraken/Falcon's free speed. Either this is a 1:3 step-up or the table/KV units are off.
+
     public static final double GEAR_RATIO = 3;
     public static final int CURRENT_LIMIT = 80;
     public static final int CURRENT_THRESHOLD = 100;
@@ -26,9 +25,7 @@ public class flyWheelConstants {
     public static final PIDFGains PID = new PIDFGains(0.05, 0, 0, KV);
     public static final double RPM_TOLERANCE = 100;
 
-    // each row is one shot: { distance to hub (m), hood open (0 = closed, 1 = fully open), flywheel RPM }
-    // tune the hood and the RPM of a row together, never one column on its own.
-    // starting hood values are the old straight line (1.0 m closed -> 5.8 m fully open)
+
     private static final double[][] SHOT_TABLE = {
         {1.8, 0.167, 2500},
         {2.3, 0.271, 2630},
@@ -43,7 +40,7 @@ public class flyWheelConstants {
     public static final double MIN_TABLE_DISTANCE = 1.8;
     public static final double MAX_TABLE_DISTANCE = 5.8;
 
-    // both maps are filled from the same rows, so the hood and the RPM always stay a matching pair
+ 
     private static final InterpolatingDoubleTreeMap DISTANCE_TO_HOOD_PERCENT = new InterpolatingDoubleTreeMap();
     private static final InterpolatingDoubleTreeMap DISTANCE_TO_RPM = new InterpolatingDoubleTreeMap();
     static {
