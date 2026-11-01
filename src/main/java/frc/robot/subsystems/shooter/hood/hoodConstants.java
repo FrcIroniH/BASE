@@ -19,18 +19,12 @@ public class hoodConstants {
     public static final double maxAcceleration = 0;
     public static final boolean IS_INVERTED = false;
     public static final boolean IS_FOLLOWER_INVERTED_FROM_LEAD = true;
+    public static final double MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS = 6;
     public static final Translation2d ROBOT_TO_SHOOTER = new Translation2d(0.0, 0.0);
-    public static final InterpolatingDoubleTreeMap DISTANCE_TO_RPM = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_PRECENT = new InterpolatingDoubleTreeMap();
     static {
-        DISTANCE_TO_RPM.put(1.8, 2500.0);
-        DISTANCE_TO_RPM.put(2.3, 2630.0);
-        DISTANCE_TO_RPM.put(2.8, 2790.0);
-        DISTANCE_TO_RPM.put(3.3, 2990.0);
-        DISTANCE_TO_RPM.put(3.8, 3240.0);
-        DISTANCE_TO_RPM.put(4.3, 3500.0);
-        DISTANCE_TO_RPM.put(4.8, 3630.0);
-        DISTANCE_TO_RPM.put(5.3, 3700.0);
-        DISTANCE_TO_RPM.put(5.8, 3870.0);
+        DISTANCE_TO_ANGLE_PRECENT.put(1.0, 0.0);
+        DISTANCE_TO_ANGLE_PRECENT.put(5.8, 1.0);
     }
 
     public static final Translation2d BLUE_HUB_CENTER = new Translation2d(Units.inchesToMeters(182.107), Units.inchesToMeters(158.844));

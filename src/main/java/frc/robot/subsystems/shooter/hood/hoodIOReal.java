@@ -17,6 +17,7 @@ public class hoodIOReal implements hoodIO {
         hoodMotor.setCurrentLimits(hoodConstants.currentLimit, hoodConstants.currentThreshhold);
         hoodMotor.setProfile(new Constraints(hoodConstants.maxVelocity, hoodConstants.maxAcceleration));
         hoodMotor.setMotorInverted(hoodConstants.isInverted);
+        hoodMotor.setMotorIdleMode(true);
     }
     public void resetAngleEncoder() {
         hoodMotor.resetMotorEncoder();

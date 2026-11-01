@@ -5,7 +5,6 @@
 package frc.robot.subsystems.Intake.Rollers;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.util.MarinersController.MarinersController;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RollerCommands extends Command {
