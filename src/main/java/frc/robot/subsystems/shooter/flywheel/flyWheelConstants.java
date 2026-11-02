@@ -40,7 +40,7 @@ public class flyWheelConstants {
     public static final double MIN_TABLE_DISTANCE = 1.8;
     public static final double MAX_TABLE_DISTANCE = 5.8;
 
- 
+
     private static final InterpolatingDoubleTreeMap DISTANCE_TO_HOOD_PERCENT = new InterpolatingDoubleTreeMap();
     private static final InterpolatingDoubleTreeMap DISTANCE_TO_RPM = new InterpolatingDoubleTreeMap();
     static {
