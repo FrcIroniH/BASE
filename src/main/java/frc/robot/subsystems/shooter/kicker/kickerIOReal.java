@@ -20,6 +20,7 @@ public class kickerIOReal implements kickerIO {
 
     @Override
     public void setDutyCycle(double dutyCycle){
+        dutyCycle = kickerConstants.DUTY_CYCLE;
         leadMotor.setDutyCycle(dutyCycle);
     }
 
