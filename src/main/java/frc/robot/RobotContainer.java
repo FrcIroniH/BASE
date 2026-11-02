@@ -9,6 +9,6 @@ public class RobotContainer {
 
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
-        driveController.L2().whileTrue(new openHood(hood, null));
+        driveController.L2().whileTrue(new openHood(hood, () -> 5.0));
     }
 }

@@ -1,7 +1,7 @@
 package frc.robot.subsystems.shooter.flywheel;
 
 import java.util.function.Supplier;
-
+import frc.robot.subsystems.shooter.flywheel.flyWheelConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
@@ -61,4 +61,3 @@ public class flyWheelConstants {
         };
     }
 }
-

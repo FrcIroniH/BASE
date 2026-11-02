@@ -1,5 +1,5 @@
 package frc.robot.subsystems.shooter.hood;
 
-public class SysID {
+public class hoodSysID {
     
 }

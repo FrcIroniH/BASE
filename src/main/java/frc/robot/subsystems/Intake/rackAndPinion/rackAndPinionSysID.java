@@ -1,5 +1,5 @@
 package frc.robot.subsystems.Intake.rackAndPinion;
 
-public class SysID {
+public class rackAndPinionSysID {
     
 }
