@@ -2,6 +2,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.DriveTrain.DriveBase;
+import frc.robot.subsystems.Intake.Rollers.RollerCommands;
+import frc.robot.subsystems.Intake.Rollers.Rollers;
+import frc.robot.subsystems.Intake.rackAndPinion.intakeFullExtension;
+import frc.robot.subsystems.Intake.rackAndPinion.intakeFullRetraction;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionSubsystem;
+import frc.robot.subsystems.Intake.transfer.transferConstants;
+import frc.robot.subsystems.Intake.transfer.transferOn;
+import frc.robot.subsystems.Intake.transfer.transferSubsystem;
 import frc.robot.subsystems.shooter.flywheel.flyWheelCommand;
 import frc.robot.subsystems.shooter.flywheel.flyWheelSysID;
 import frc.robot.subsystems.shooter.flywheel.flyWheelsubsystem;
@@ -19,12 +27,19 @@ public class RobotContainer {
     private final kickerSubsystem kicker = new kickerSubsystem();
     private final hoodSysID hoodSysId = new hoodSysID(hood);
     private final flyWheelSysID flywheelSysId = new flyWheelSysID(flywheel);
+    private final transferSubsystem transfer = new transferSubsystem();
+    private final rackAndPinionSubsystem rackaAndPinion = new rackAndPinionSubsystem();
+    private final Rollers rollers = new Rollers();
 
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
         driveController.L2().whileTrue(new openHood(hood));
-        driveController.R2().whileTrue(new flyWheelCommand(flywheel));
-        driveController.R1().whileTrue(new kickerOn(kicker));
+        driveController.L2().whileTrue(new flyWheelCommand(flywheel));
+        driveController.L2().whileTrue(new kickerOn(kicker));
+        driveController.L2().whileTrue(new transferOn(transfer));
+        driveController.R2().toggleOnTrue(new intakeFullExtension(rackaAndPinion));
+        driveController.R2().whileTrue(new RollerCommands(rollers));
+        driveController.R1().toggleOnTrue(new intakeFullRetraction(rackaAndPinion));
 
         driveController.cross().whileTrue(
             hoodSysId.quasistatic(Direction.kForward).alongWith(flywheelSysId.quasistatic(Direction.kForward)));
