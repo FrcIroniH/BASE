@@ -5,6 +5,9 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.RobotState;
@@ -45,8 +48,8 @@ import frc.robot.subsystems.shooter.kicker.kickerSubsystem;
 public class RobotContainer {
     public static CommandPS5Controller driveController;
     private static final DriveBase driveBase = new DriveBase();
-    private final hoodSubsystem hood = new hoodSubsystem(driveBase::getPose);
-    private final flyWheelsubsystem flywheel = new flyWheelsubsystem(driveBase::getPose);
+    private final hoodSubsystem hood = new hoodSubsystem();
+    private final flyWheelsubsystem flywheel = new flyWheelsubsystem();
     private final kickerSubsystem kicker = new kickerSubsystem();
     private final transferSubsystem transfer = new transferSubsystem();
     private final rackAndPinionSubsystem rackAndPinion = new rackAndPinionSubsystem();
@@ -146,34 +149,13 @@ public class RobotContainer {
         
 
     }
-    public static Distance distanceFromHub(){
-        Pose2d hubLocation = Constants.FieldConstants.HUB_POSITION;
-        if(Robot.isRedAlliance){
-            hubLocation = FlippingUtil.flipFieldPose(hubLocation);
-        }
-        return Meters.of(driveBase.getPose().getTranslation().getDistance(hubLocation.getTranslation()));
-        }
-        public static Distance glida()
-        {
-            return Meters.of(2.15);
-        }
+    public static double getDistanceToHub(){
+        Translation2d hub = flyWheelConstants.getHubCenter();
+        return driveBase.getPose().getTranslation().getDistance(hub);
+    }
 
-        public static Distance glida2()
-        {
-            return Meters.of(3);
-        }
-
-        public static double angleToHub(){
-            Pose2d hubLocation = Constants.FieldConstants.HUB_POSITION;
-            if(Robot.isRedAlliance) hubLocation = FlippingUtil.flipFieldPose(hubLocation);
-            return driveBase.getAngleToPose(hubLocation);
-        }
-
-        public static double angleToAllianceZone(){
-            return Robot.isRedAlliance ? 0 : Math.PI / 2;
-        }
-
-        public static double getShootingAngle(){
-            return inAllianceZone() ? angleToHub() : angleToAllianceZone();
-        }
+    public static double getAngleToHub(){
+        Translation2d hub = flyWheelConstants.getHubCenter();
+        return driveBase.getAngleToPose(new Pose2d(hub, new Rotation2d()));
+    }
 }

@@ -1,12 +1,11 @@
 package frc.robot.subsystems.shooter.hood;
 
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 import static edu.wpi.first.units.Units.Volts;
 
 import org.littletonrobotics.junction.Logger;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.shooter.flywheel.flyWheelConstants;
@@ -14,19 +13,15 @@ import frc.robot.subsystems.shooter.flywheel.flyWheelConstants;
 public class hoodSubsystem extends SubsystemBase {
     private final hoodIO io;
     private final hoodIOInputsAutoLogged inputs = new hoodIOInputsAutoLogged();
-    private final Supplier<Pose2d> poseSupplier;
     private double targetPosition = 0;
-    private double distanceToHub = 0;
-
-    public hoodSubsystem(Supplier<Pose2d> poseSupplier) {
-        this.poseSupplier = poseSupplier;
+    public hoodSubsystem() {
         io = new hoodIOReal();
         resetAngleEncoder();
     }
     public void resetAngleEncoder() {
         io.resetAngleEncoder();
     }
-    public void open() {
+    public void open(double distanceToHub) {
         targetPosition = hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS * flyWheelConstants.getHoodPercent(distanceToHub);
         io.openToPosition(targetPosition);
     }
@@ -46,9 +41,5 @@ public class hoodSubsystem extends SubsystemBase {
     public void periodic() {
         io.update(inputs);
         Logger.processInputs("Shooter/Hood", inputs);
-        distanceToHub = flyWheelConstants.distanceToHub(poseSupplier.get());
-        Logger.recordOutput("Shooter/Hood/DistanceToHub", distanceToHub);
-        Logger.recordOutput("Shooter/Hood/TargetPosition", targetPosition);
-        Logger.recordOutput("Shooter/Hood/AtAngle", atAngle());
     }
 }

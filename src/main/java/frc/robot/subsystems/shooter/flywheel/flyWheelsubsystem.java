@@ -1,9 +1,8 @@
 package frc.robot.subsystems.shooter.flywheel;
 
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.units.Units.Volts;
@@ -13,15 +12,13 @@ import edu.wpi.first.units.measure.Voltage;
 public class flyWheelsubsystem extends SubsystemBase {
     private final flyWheelIO io;
     private final flyWheelInputsAutoLogged inputs = new flyWheelInputsAutoLogged();
-    private final Supplier<Pose2d> poseSupplier;
     private double targetRPM = 0;
-    private double distanceToHub = 0;
 
-    public flyWheelsubsystem(Supplier<Pose2d> poseSupplier) {
-        this.poseSupplier = poseSupplier;
+
+    public flyWheelsubsystem() {
         io = new flyWheelIOReal();
     }
-    public void setRPMFromDistance() {
+    public void setRPMFromDistance(double distanceToHub) {
         targetRPM = flyWheelConstants.getRPM(distanceToHub);
         io.setRPM(targetRPM);
     }
@@ -39,9 +36,6 @@ public class flyWheelsubsystem extends SubsystemBase {
     public void periodic() {
         io.update(inputs);
         Logger.processInputs("Shooter/Flywheel", inputs);
-
-        distanceToHub = flyWheelConstants.distanceToHub(poseSupplier.get());
-        Logger.recordOutput("Shooter/Flywheel/DistanceToHub", distanceToHub);
         Logger.recordOutput("Shooter/Flywheel/TargetRPM", targetRPM);
         Logger.recordOutput("Shooter/Flywheel/AtSpeed", atSpeed());
     }

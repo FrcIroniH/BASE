@@ -9,9 +9,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class openHood extends Command {
   private final hoodSubsystem hood;
+  private double DistanceToHub;
+
   /** Creates a new openHood. */
-  public openHood(hoodSubsystem hood) {
+  public openHood(hoodSubsystem hood, double distanceToHub) {
     this.hood = hood;
+    this.DistanceToHub = distanceToHub;
     addRequirements(hood);
   }
 
@@ -22,7 +25,7 @@ public class openHood extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      hood.open();
+      hood.open(DistanceToHub);
   }
 
   // Called once the command ends or is interrupted.

@@ -1,11 +1,9 @@
 package frc.robot.subsystems.shooter.flywheel;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Robot;
 import frc.util.PIDFGains;
 import frc.util.MarinersController.MarinersController.ControllerLocation;
 
@@ -62,18 +60,6 @@ public class flyWheelConstants {
     public static final Translation2d RED_HUB_CENTER = new Translation2d(Units.inchesToMeters(469.115), Units.inchesToMeters(158.844));
 
     public static Translation2d getHubCenter() {
-        boolean isRed = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
-        if (isRed) {
-            return RED_HUB_CENTER;
-        } else {
-            return BLUE_HUB_CENTER;
-        }
-    }
-
-    public static double distanceToHub(Pose2d robotPose) {
-        Translation2d hub = getHubCenter();
-        double dx = hub.getX() - robotPose.getX();
-        double dy = hub.getY() - robotPose.getY();
-        return Math.sqrt(dx * dx + dy * dy);
+        return Robot.isRedAlliance ? RED_HUB_CENTER : BLUE_HUB_CENTER;
     }
 }
