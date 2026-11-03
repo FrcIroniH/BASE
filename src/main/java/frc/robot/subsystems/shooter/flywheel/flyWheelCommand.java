@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class flyWheelCommand extends Command {
-  private final flyWheelsubsystem flywheel;
+  private final flyWheelsubsystem Flywheel;
+  private static double TuningRPM;
   /** Creates a new flyWheelCommand. */
-  public flyWheelCommand(flyWheelsubsystem flywheel) {
-    this.flywheel = flywheel;
+  public flyWheelCommand(flyWheelsubsystem flywheel, double tuningRPM) {
+    this.Flywheel = flywheel;
+    this.TuningRPM = tuningRPM;
     addRequirements(flywheel);
   }
 
@@ -21,13 +23,13 @@ public class flyWheelCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.setRPMFromDistance(); 
+    Flywheel.setRPMFromDistance(TuningRPM); 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    flywheel.stop();
+    Flywheel.stop();
   }
 
   // Returns true when the command should end.

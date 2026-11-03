@@ -21,9 +21,15 @@ public class flyWheelsubsystem extends SubsystemBase {
         this.poseSupplier = poseSupplier;
         io = new flyWheelIOReal();
     }
-    public void setRPMFromDistance() {
-        targetRPM = flyWheelConstants.getRPM(distanceToHub);
-        io.setRPM(targetRPM);
+    public void setRPMFromDistance(double tuningRPM) {
+        if (flyWheelConstants.tuningmode) {
+            io.setRPM(tuningRPM);
+        }
+        else {
+            targetRPM = flyWheelConstants.getRPM(distanceToHub);
+            io.setRPM(targetRPM);
+        }
+
     }
 
     public void stop() {

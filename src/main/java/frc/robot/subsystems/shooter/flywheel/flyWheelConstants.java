@@ -16,7 +16,6 @@ public class flyWheelConstants {
     public static final int SEC_MOTOR_ID = 24;
     public static final boolean IS_INVERTED = false;
     public static final boolean IS_FOLLOWER_INVERTED_FROM_LEAD = true; 
-
     public static final double GEAR_RATIO = 3;
     public static final int CURRENT_LIMIT = 80;
     public static final int CURRENT_THRESHOLD = 100;
@@ -24,6 +23,8 @@ public class flyWheelConstants {
     public static final double KV = 0.36;  
     public static final PIDFGains PID = new PIDFGains(0.05, 0, 0, KV);
     public static final double RPM_TOLERANCE = 100;
+    public static final boolean tuningmode = false;
+
 
 
     private static final double[][] SHOT_TABLE = {

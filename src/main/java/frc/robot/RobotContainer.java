@@ -1,6 +1,8 @@
 package frc.robot;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -8,6 +10,9 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.DriveTrain.DriveBase;
@@ -30,42 +35,52 @@ import frc.robot.subsystems.shooter.hood.openHood;
 import frc.robot.subsystems.shooter.kicker.kickerOn;
 import frc.robot.subsystems.shooter.kicker.kickerSubsystem;
 
+
 public class RobotContainer {
+
     public static CommandPS5Controller driveController;
     private final DriveBase driveBase = new DriveBase();
     private final hoodSubsystem hood = new hoodSubsystem(driveBase::getPose);
-    private final flyWheelsubsystem flywheel = new flyWheelsubsystem(driveBase::getPose);
+    private final flyWheelsubsystem flywheel = new flyWheelsubsystem(driveBase::getPose);    // for SysID:
+    private final hoodSysID hoodSysId = new hoodSysID(hood); 
+    private final flyWheelSysID flywheelSysId = new flyWheelSysID(flywheel);
     private final kickerSubsystem kicker = new kickerSubsystem();
-    private final transferSubsystem transfer = new transferSubsystem();
-    private final rackAndPinionSubsystem rackaAndPinion = new rackAndPinionSubsystem();
-    private final Rollers rollers = new Rollers();
-    // for SysID:
-    // private final hoodSysID hoodSysId = new hoodSysID(hood); 
-    // private final flyWheelSysID flywheelSysId = new flyWheelSysID(flywheel);
     public static Alert brownoutBattery = new Alert("BROWNOUT", AlertType.kError);
-    // public static Constants.TrenchLocations trenchLocations = new Constants.TrenchLocations(); // need to create TrenchLocations()
-    public static Vision vision;
-    public static LoggedDashboardChooser<Command> autoChooser;
-    public static LoggedDashboardChooser<String> sideChooser;
-    public static HashMap<String, Command> mirroredAutoMap = new HashMap<>();
-    public static PathPlannerPath upLeftTrenchPath;
-    public static PathPlannerPath upRightTrenchPath;
-    public static Runnable fuelIncrementer;
-    public static int fuelApproximation = 0;
+
+    private static double tuningOpenHoodPrecent = 1;
+    private static double tuningRPM = 0;
+    double hoodAngle(boolean raise) {
+        if (raise) {
+            tuningOpenHoodPrecent -= 0.2;
+        } else { 
+            tuningOpenHoodPrecent += 0.2;
+
+        }
+        if (tuningOpenHoodPrecent < 0 ) {
+            tuningOpenHoodPrecent = 0;
+        }
+        if (tuningOpenHoodPrecent > 1) {
+            tuningOpenHoodPrecent = 1;
+        }
+        return tuningOpenHoodPrecent;
+    }
+    double flywheelRPM(boolean raise) {
+        if (raise) {
+            tuningRPM += 10;
+        }
+        else {
+            tuningRPM -= 10;
+        }
+        if (tuningRPM < 0) {
+            tuningRPM = 0;
+        }
+        return tuningRPM;
+    }
+
 
 
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
-        vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
-        driveController = new CommandPS5Controller(0);
-        // driveController.L2().whileTrue(new openHood(hood)); vision needed
-        // driveController.L2().whileTrue(new flyWheelCommand(flywheel));
-        driveController.L2().whileTrue(new kickerOn(kicker));
-        driveController.L2().whileTrue(new transferOn(transfer));
-        driveController.R2().toggleOnTrue(new intakeFullExtension(rackaAndPinion));
-        driveController.R2().whileTrue(new RollerCommands(rollers));
-        driveController.R1().toggleOnTrue(new intakeFullRetraction(rackaAndPinion));
-
         // for SysID:
         // driveController.L2().whileTrue(new openHood(hood));
         // driveController.R2().whileTrue(new flyWheelCommand(flywheel));
@@ -80,6 +95,19 @@ public class RobotContainer {
         // driveController.triangle().whileTrue(
         //     hoodSysId.dynamic(Direction.kReverse).alongWith(flywheelSysId.dynamic(Direction.kReverse)));
 
+        // for Tuning:
+        driveController.L1().onTrue(new openHood(hood, hoodAngle(true)));
+        driveController.L2().onTrue(new openHood(hood, hoodAngle(false)));
+        driveController.R1().onTrue(new flyWheelCommand(flywheel, flywheelRPM(true)));
+        driveController.R2().onTrue(new flyWheelCommand(flywheel, flywheelRPM(false)));
+        driveController.cross().whileTrue(new kickerOn(kicker));
+        Logger.recordOutput("Shooter/Flywheel/tuningRPM", tuningRPM);
+        Logger.recordOutput("Shooter/Hood/tuningOpenHoodPrecent", tuningOpenHoodPrecent);
+
+
+        
+
 
     }
 }
+

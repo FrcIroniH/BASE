@@ -26,7 +26,6 @@ public class flyWheelIOReal implements flyWheelIO {
     public void setRPM(double RPM) {
         leadFlyWheel.setReference(RPM / 60.0, ControlMode.Velocity);
         followFlyWheel.setReference(RPM / 60.0, ControlMode.Velocity);
-
     }
 
     @Override
