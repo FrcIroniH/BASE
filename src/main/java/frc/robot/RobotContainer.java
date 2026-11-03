@@ -72,7 +72,7 @@ public class RobotContainer {
         // driveController.L2().whileTrue(new flyWheelCommand(flywheel));
         driveController.R1().whileTrue(new kickerOn(kicker));
         driveController.R1().whileTrue(new transferOn(transfer));
-        driveController.L1().whileTrue(new RollerCommands(rollers));
+        driveController.L1().whileTrue(new RollerCommands(rollers).alongWith(Commands.startEnd(DriveCommand::slowSpeed, DriveCommand::fullSpeed)));
         driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
         driveController.triangle().whileTrue(new rollersReverse(rollers));
         driveController.triangle().whileTrue(new transferReverse(transfer));
@@ -144,20 +144,11 @@ public class RobotContainer {
         driveController.povDownRight().whileTrue(new MinorAdjust(driveBase, AdjustmentDirection.BACK_RIGHT));
         
 
-        // driveController.R1().whileTrue(
-        //     Commands.parallel(
-        //         new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle),
-        //         preShooting.get().andThen(shootWithBump.get())
-        //     ).withName("Full Shooting")
-        // );
-        // driveController.cross().whileTrue(preShooting.get().andThen(shootCommandWithNoVision.get()));
-
-        // driveController.circle().whileTrue(preShooting.get().andThen(shootCommandWithNoVision2.get()));
-
-        // driveController.create().onTrue(new InstantCommand(() -> withAutoEject = !withAutoEject));
-        // driveController.options().onTrue(swapIntakeStateClosed.get());
-
-        // driveController.L1().whileTrue(feeder.intakeCommand().alongWith(Commands.startEnd(DriveCommand::slowSpeed, DriveCommand::fullSpeed)));
-        // driveController.square().whileTrue(feeder.passEjectCommand());
+        driveController.R1().whileTrue(
+            Commands.parallel(
+                new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle),
+                preShooting.get().andThen(shootWithBump.get())
+            ).withName("Full Shooting")
+        );
     }
 }
