@@ -27,6 +27,7 @@ import frc.robot.subsystems.Intake.rackAndPinion.intakeFullExtension;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullRetraction;
 import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionConstants;
 import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionSubsystem;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionIO.rackAndPinionInputs;
 import frc.robot.subsystems.Intake.transfer.transferConstants;
 import frc.robot.subsystems.Intake.transfer.transferOn;
 import frc.robot.subsystems.Intake.transfer.transferReverse;
@@ -88,7 +89,7 @@ public class RobotContainer {
         driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
         driveController.triangle().whileTrue(new rollersReverse(rollers));
         driveController.triangle().whileTrue(new transferReverse(transfer));
-        if (rackAndPinionConstants.isExtended && rackAndPinionSubsystem.isStalled()) {
+        if (rackAndPinionConstants.isExtended && rackAndPinion.isStalled()) {
             Commands.runOnce(() -> {
                 new intakeFullRetraction(rackAndPinion);
                 rackAndPinionConstants.isExtended = false;
