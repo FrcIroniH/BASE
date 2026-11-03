@@ -70,7 +70,6 @@ public class flyWheelConstants {
         }
     }
 
-    /** distance from the robot center to the alliance hub, shared by the flywheel and the hood */
     public static double distanceToHub(Pose2d robotPose) {
         Translation2d hub = getHubCenter();
         double dx = hub.getX() - robotPose.getX();
