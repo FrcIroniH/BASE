@@ -58,8 +58,8 @@ public class RobotContainer {
         driveController = new CommandPS5Controller(0);
         vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
         driveController = new CommandPS5Controller(0);
-        driveController.L2().whileTrue(new openHood(hood));
-        driveController.L2().whileTrue(new flyWheelCommand(flywheel));
+        // driveController.L2().whileTrue(new openHood(hood)); vision needed
+        // driveController.L2().whileTrue(new flyWheelCommand(flywheel));
         driveController.L2().whileTrue(new kickerOn(kicker));
         driveController.L2().whileTrue(new transferOn(transfer));
         driveController.R2().toggleOnTrue(new intakeFullExtension(rackaAndPinion));
