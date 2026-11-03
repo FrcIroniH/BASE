@@ -73,10 +73,11 @@ public class RobotContainer {
         driveController.R1().whileTrue(new kickerOn(kicker));
         driveController.R1().whileTrue(new transferOn(transfer));
         driveController.L1().whileTrue(new RollerCommands(rollers));
-
+        driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
+        driveController.triangle().whileTrue(new rollersReverse(rollers));
+        driveController.triangle().whileTrue(new transferReverse(transfer));
         driveController.square().onTrue(
             Commands.runOnce(() -> {
-
             if (!rackAndPinionConstants.isExtended) {
                 new intakeFullExtension(rackAndPinion);
             } else {
@@ -85,10 +86,6 @@ public class RobotContainer {
             rackAndPinionConstants.isExtended = !rackAndPinionConstants.isExtended;
             })
         );
-
-        driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
-        driveController.triangle().whileTrue(new rollersReverse(rollers));
-        driveController.triangle().whileTrue(new transferReverse(transfer));
         if (rackAndPinionConstants.isExtended && rackAndPinion.isStalled()) {
             Commands.runOnce(() -> {
                 new intakeFullRetraction(rackAndPinion);
@@ -96,7 +93,6 @@ public class RobotContainer {
             })
             ;
         }
-    
         // for SysID:
         // driveController.L2().whileTrue(new openHood(hood));
         // driveController.R2().whileTrue(new flyWheelCommand(flywheel));
@@ -111,8 +107,23 @@ public class RobotContainer {
         // driveController.triangle().whileTrue(
         //     hoodSysId.dynamic(Direction.kReverse).alongWith(flywheelSysId.dynamic(Direction.kReverse)));
 
-        //R1 TO SHOOT_X, R2 BRAKES_V, L1 ROLLERCOMMAND_V,TRIANGLE DUMP FUEL FROM INTAKE_V, PS BUTTON GYRO RESET_V, SQUARE TO EXTED/RETRACT INTAKE_V, L2 TO PASS_X
+
+
+
+
+        /**
+         * @#!@#!#%%$^@#$~@#$#$~$%%@^*(&&$%^)%$%1234657890!@#%$@$!@$@%%&^%&%&$&%$%I*&*(&$#$%@$#%#$5)^*^&%^%$%#$#$#^$%$!$~@~^$~~~@!##%#
+         * jake requests:
+         *  R1 TO SHOOT_X, R2 BRAKES_V, L1 ROLLERCOMMAND_V,TRIANGLE DUMP FUEL FROM INTAKE_V, PS BUTTON GYRO RESET_V, SQUARE TO EXTED/RETRACT INTAKE_V, L2 TO PASS_X
+         * _V means its already added _X it isnt in the robotcontainer
+         * @!#$!@%@$#%!@#$@$@#$!@%#$%%#$%!~!@#$#!$%$#%$$#$#&^&^%*&***&^%^#$%~~&)(*&^%$#@)&&^%$^#$###$%$%$%$%~!!@$$%!@$#@$%%^&*^%%^#$&$
+         */
         //ADD OPTION TO SHOOT WITHOUT VISION FROM A SET PLACE(MAYBE WITH GLOBAL MAP)
+
+
+
+
+        
 
     }
         public static void configureDriveBindings(){
