@@ -12,4 +12,9 @@ public class transferConstants {
     public static final boolean isInverted = false;
     public static final int CURRENT_LIMIT = 100;
     public static final int CURRENT_THRESHOLD = 80;
+    public static final ControllerLocation FUNNEL_CONTROLLER_LOCATION = ControllerLocation.MOTOR;
+    public final static int FUNNEL_MOTOR_ID = 0;
+    public static final Boolean isFunnelInverted = false;
+    public static final int funnel_CURRENT_LIMIT = 100;
+    public static final int funnel_CURRENT_THRESHOLD = 80;
 }

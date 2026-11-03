@@ -46,7 +46,6 @@ public class hoodSubsystem extends SubsystemBase {
     public void periodic() {
         io.update(inputs);
         Logger.processInputs("Shooter/Hood", inputs);
-
         distanceToHub = flyWheelConstants.distanceToHub(poseSupplier.get());
         Logger.recordOutput("Shooter/Hood/DistanceToHub", distanceToHub);
         Logger.recordOutput("Shooter/Hood/TargetPosition", targetPosition);
