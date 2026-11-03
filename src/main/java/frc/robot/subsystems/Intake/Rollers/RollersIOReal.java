@@ -5,12 +5,15 @@
 package frc.robot.subsystems.Intake.Rollers;
 
 import frc.util.MarinersController.MarinersTalonFX;
+
+import static edu.wpi.first.units.Units.Second;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 
 /** Add your docs here. */
 public class RollersIOReal implements RollersIO {
     private final MarinersTalonFX FirstMotor;
-    private final MarinersTalonFX SecendMotor;
+    private final MarinersTalonFX SecondMotor;
 
     public RollersIOReal(){
         FirstMotor = new MarinersTalonFX("Intake/First Rollers Motor", RollerConstants.CONTROLLER_LOCATION,
@@ -20,20 +23,22 @@ public class RollersIOReal implements RollersIO {
         FirstMotor.setMotorInverted(RollerConstants.IS_INVERTED);
         FirstMotor.setProfile(new Constraints(RollerConstants.maxVelocity, RollerConstants.acceleration));
         FirstMotor.getMeasurements().setGearRatio(RollerConstants.GEAR_RATIO);
+        FirstMotor.setMotorIdleMode(false);
 
-        SecendMotor = new MarinersTalonFX("Intake/Secend Rollers Motor", RollerConstants.CONTROLLER_LOCATION,
+        SecondMotor = new MarinersTalonFX("Intake/Secend Rollers Motor", RollerConstants.CONTROLLER_LOCATION,
                                     RollerConstants.SEC_MOTOR_ID);
 
-        SecendMotor.setCurrentLimits(RollerConstants.CURRENT_LIMIT, RollerConstants.CURRENT_THRESHOLD);
-        SecendMotor.setMotorInverted(RollerConstants.IS_SEC_INVERTED);
-        SecendMotor.setProfile(new Constraints(RollerConstants.maxVelocity, RollerConstants.acceleration));
-        SecendMotor.getMeasurements().setGearRatio(RollerConstants.GEAR_RATIO);
+        SecondMotor.setCurrentLimits(RollerConstants.CURRENT_LIMIT, RollerConstants.CURRENT_THRESHOLD);
+        SecondMotor.setMotorInverted(RollerConstants.IS_SEC_INVERTED);
+        SecondMotor.setProfile(new Constraints(RollerConstants.maxVelocity, RollerConstants.acceleration));
+        SecondMotor.getMeasurements().setGearRatio(RollerConstants.GEAR_RATIO);
+        SecondMotor.setMotorIdleMode(false);
 
     }
 
 
         public void setDutyCycle(double dutyCycle){
             FirstMotor.setDutyCycle(dutyCycle);
-            SecendMotor.setDutyCycle(dutyCycle);
+            SecondMotor.setDutyCycle(dutyCycle);
         }
     }

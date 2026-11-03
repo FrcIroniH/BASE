@@ -14,12 +14,14 @@ public class flyWheelIOReal implements flyWheelIO {
         leadFlyWheel.getMeasurements().setGearRatio(flyWheelConstants.GEAR_RATIO);
         leadFlyWheel.setPIDF(flyWheelConstants.PID);
         leadFlyWheel.setStaticFeedForward(flyWheelConstants.KS);
+        leadFlyWheel.setMotorIdleMode(false);
         followFlyWheel = new MarinersTalonFX("Shooter/Follow flywheel Motor", flyWheelConstants.CONTROLLER_LOCATION, flyWheelConstants.SEC_MOTOR_ID);
         followFlyWheel.setCurrentLimits(flyWheelConstants.CURRENT_LIMIT, flyWheelConstants.CURRENT_THRESHOLD);
         followFlyWheel.getMeasurements().setGearRatio(flyWheelConstants.GEAR_RATIO);
         followFlyWheel.setMotorAsFollower(leadFlyWheel, flyWheelConstants.IS_FOLLOWER_INVERTED_FROM_LEAD);
         followFlyWheel.setPIDF(flyWheelConstants.PID);
         followFlyWheel.setStaticFeedForward(flyWheelConstants.KS);
+        followFlyWheel.setMotorIdleMode(false);
     }
 
     @Override
