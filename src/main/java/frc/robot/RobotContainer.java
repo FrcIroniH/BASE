@@ -93,6 +93,7 @@ public class RobotContainer {
             })
             ;
         }
+        
         // for SysID:
         // driveController.L2().whileTrue(new openHood(hood));
         // driveController.R2().whileTrue(new flyWheelCommand(flywheel));
@@ -144,11 +145,35 @@ public class RobotContainer {
         driveController.povDownRight().whileTrue(new MinorAdjust(driveBase, AdjustmentDirection.BACK_RIGHT));
         
 
-        driveController.R1().whileTrue(
-            Commands.parallel(
-                new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle),
-                preShooting.get().andThen(shootWithBump.get())
-            ).withName("Full Shooting")
-        );
     }
+    public static Distance distanceFromHub(){
+        Pose2d hubLocation = Constants.FieldConstants.HUB_POSITION;
+        if(Robot.isRedAlliance){
+            hubLocation = FlippingUtil.flipFieldPose(hubLocation);
+        }
+        return Meters.of(driveBase.getPose().getTranslation().getDistance(hubLocation.getTranslation()));
+        }
+        public static Distance glida()
+        {
+            return Meters.of(2.15);
+        }
+
+        public static Distance glida2()
+        {
+            return Meters.of(3);
+        }
+
+        public static double angleToHub(){
+            Pose2d hubLocation = Constants.FieldConstants.HUB_POSITION;
+            if(Robot.isRedAlliance) hubLocation = FlippingUtil.flipFieldPose(hubLocation);
+            return driveBase.getAngleToPose(hubLocation);
+        }
+
+        public static double angleToAllianceZone(){
+            return Robot.isRedAlliance ? 0 : Math.PI / 2;
+        }
+
+        public static double getShootingAngle(){
+            return inAllianceZone() ? angleToHub() : angleToAllianceZone();
+        }
 }
