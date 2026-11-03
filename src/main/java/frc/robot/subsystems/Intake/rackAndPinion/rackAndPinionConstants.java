@@ -14,16 +14,21 @@ public class rackAndPinionConstants {
     public static final double STALL_CURRENT = 60;
     public static final double STALL_VELOCITY = 0.05;
     public static final double STALL_TIME = 0.15;
+    public static boolean isExtended = false;
+
 
     private static final Debouncer stallDebouncer = new Debouncer(STALL_TIME, DebounceType.kRising);
 
     public static double getCurrent(MarinersTalonFX motor) {
         return Math.abs(motor.getMotor().getStatorCurrent().getValueAsDouble());
     }
-
-    public static boolean isStalled(double current, double velocity) {
+    public static boolean highCurrent(double current) {
         boolean highCurrent = current > STALL_CURRENT;
+        return highCurrent;
+
+    }
+    public static boolean isStalled(double Current, double velocity) {
         boolean notMoving = Math.abs(velocity) < STALL_VELOCITY;
-        return stallDebouncer.calculate(highCurrent && notMoving);
+        return stallDebouncer.calculate(highCurrent(Current) && notMoving);
     }
 }

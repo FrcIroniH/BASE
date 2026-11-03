@@ -25,12 +25,14 @@ import frc.robot.subsystems.Intake.Rollers.Rollers;
 import frc.robot.subsystems.Intake.Rollers.rollersReverse;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullExtension;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullRetraction;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionConstants;
 import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionSubsystem;
 import frc.robot.subsystems.Intake.transfer.transferConstants;
 import frc.robot.subsystems.Intake.transfer.transferOn;
 import frc.robot.subsystems.Intake.transfer.transferReverse;
 import frc.robot.subsystems.Intake.transfer.transferSubsystem;
 import frc.robot.subsystems.shooter.flywheel.flyWheelCommand;
+import frc.robot.subsystems.shooter.flywheel.flyWheelConstants;
 import frc.robot.subsystems.shooter.flywheel.flyWheelSysID;
 import frc.robot.subsystems.shooter.flywheel.flyWheelsubsystem;
 import frc.robot.subsystems.shooter.hood.hoodSubsystem;
@@ -61,16 +63,10 @@ public class RobotContainer {
     public static PathPlannerPath upRightTrenchPath;
     public static Runnable fuelIncrementer;
     public static int fuelApproximation = 0;
-    private boolean isExtended = false;
-
         
-
-
-
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
         vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
-        driveController = new CommandPS5Controller(0);
         // driveController.L2().whileTrue(new openHood(hood)); vision needed
         // driveController.L2().whileTrue(new flyWheelCommand(flywheel));
         driveController.R1().whileTrue(new kickerOn(kicker));
@@ -80,18 +76,25 @@ public class RobotContainer {
         driveController.square().onTrue(
             Commands.runOnce(() -> {
 
-            if (!isExtended) {
+            if (!rackAndPinionConstants.isExtended) {
                 new intakeFullExtension(rackAndPinion);
             } else {
                 new intakeFullRetraction(rackAndPinion);
             }
-            isExtended = !isExtended;
+            rackAndPinionConstants.isExtended = !rackAndPinionConstants.isExtended;
             })
         );
-        
+
         driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
         driveController.triangle().whileTrue(new rollersReverse(rollers));
         driveController.triangle().whileTrue(new transferReverse(transfer));
+        if (rackAndPinionConstants.isExtended && rackAndPinionSubsystem.isStalled()) {
+            Commands.runOnce(() -> {
+                new intakeFullRetraction(rackAndPinion);
+                rackAndPinionConstants.isExtended = false;
+            })
+            ;
+        }
         
         // for SysID:
         // driveController.L2().whileTrue(new openHood(hood));

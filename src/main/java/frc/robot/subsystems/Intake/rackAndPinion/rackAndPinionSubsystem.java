@@ -5,7 +5,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 public class rackAndPinionSubsystem extends SubsystemBase {
     rackAndPinionIO io;
-    rackAndPinionInputsAutoLogged inputs = new rackAndPinionInputsAutoLogged();
+    rackAndPinionInputsAutoLogged rackinputs = new rackAndPinionInputsAutoLogged();
     
     public rackAndPinionSubsystem() {
         io = new rackAndPinionIOReal();
@@ -22,13 +22,13 @@ public class rackAndPinionSubsystem extends SubsystemBase {
     }
     @Override
     public void periodic() {
-        io.update(inputs);
-        if (inputs.stalled) {
+        io.update(rackinputs);
+        if (rackinputs.stalled) {
             io.stop();
         }
     }
 
     public boolean isStalled() {
-        return inputs.stalled;
+        return rackinputs.stalled;
     }
 }
