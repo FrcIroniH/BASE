@@ -3,7 +3,6 @@ package frc.robot.subsystems.Intake.rackAndPinion;
 import frc.util.MarinersController.MarinersTalonFX;
 import frc.util.MarinersController.MarinersController.ControlMode;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 
 public class rackAndPinionIOReal implements rackAndPinionIO {
