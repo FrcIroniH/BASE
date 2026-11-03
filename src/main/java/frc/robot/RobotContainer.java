@@ -111,7 +111,7 @@ public class RobotContainer {
         // driveController.triangle().whileTrue(
         //     hoodSysId.dynamic(Direction.kReverse).alongWith(flywheelSysId.dynamic(Direction.kReverse)));
 
-        //R1 TO SHOOT, R2 BRAKES, L1 ROLLERCOMMAND,TRIANGLE DUMP FUEL FROM INTAKE, PS BUTTON GYRO RESET, SQUARE TO EXTED/RETRACT INTAKE, L2 TO PASS
+        //R1 TO SHOOT_X, R2 BRAKES_V, L1 ROLLERCOMMAND_V,TRIANGLE DUMP FUEL FROM INTAKE_V, PS BUTTON GYRO RESET_V, SQUARE TO EXTED/RETRACT INTAKE_V, L2 TO PASS_X
         //ADD OPTION TO SHOOT WITHOUT VISION FROM A SET PLACE(MAYBE WITH GLOBAL MAP)
 
     }
