@@ -2,6 +2,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Second;
 
+import java.lang.System.Logger;
 import java.util.HashMap;
 
 import org.littletonrobotics.conduit.ConduitApi;
@@ -68,15 +69,12 @@ public class RobotContainer {
     private final rackAndPinionSubsystem rackAndPinion = new rackAndPinionSubsystem();
     private final Rollers rollers = new Rollers();
     public static Constants.TrenchLocations trenchLocations = new Constants.TrenchLocations();
-    // for SysID:
-    // private final hoodSysID hoodSysId = new hoodSysID(hood); 
-    // private final flyWheelSysID flywheelSysId = new flyWheelSysID(flywheel);
     public static Alert brownoutBattery = new Alert("BROWNOUT", AlertType.kError);
     public static void pollAlerts(){
         controllerDisconnected.set(!driveController.isConnected());
         brownoutBattery.set(RobotController.isBrownedOut());
     }
-    // public static Constants.TrenchLocations trenchLocations = new Constants.TrenchLocations(); // need to create TrenchLocations()
+
     public static Vision vision;
     public static LoggedDashboardChooser<Command> autoChooser;
     public static LoggedDashboardChooser<String> sideChooser;
@@ -129,38 +127,6 @@ public class RobotContainer {
             })
             ;
         }
-        // for SysID:
-        // driveController.L2().whileTrue(new openHood(hood));
-        // driveController.R2().whileTrue(new flyWheelCommand(flywheel));
-        // driveController.R1().whileTrue(new kickerOn(kicker));
-
-        // driveController.cross().whileTrue(
-        //     hoodSysId.quasistatic(Direction.kForward).alongWith(flywheelSysId.quasistatic(Direction.kForward)));
-        // driveController.circle().whileTrue(
-        //     hoodSysId.quasistatic(Direction.kReverse).alongWith(flywheelSysId.quasistatic(Direction.kReverse)));
-        // driveController.square().whileTrue(
-        //     hoodSysId.dynamic(Direction.kForward).alongWith(flywheelSysId.dynamic(Direction.kForward)));
-        // driveController.triangle().whileTrue(
-        //     hoodSysId.dynamic(Direction.kReverse).alongWith(flywheelSysId.dynamic(Direction.kReverse)));
-
-
-
-
-
-        /**
-         * @#!@#!#%%$^@#$~@#$#$~$%%@^*(&&$%^)%$%1234657890!@#%$@$!@$@%%&^%&%&$&%$%I*&*(&$#$%@$#%#$5)^*^&%^%$%#$#$#^$%$!$~@~^$~~~@!##%#
-         * jake requests:
-         *  R1 TO SHOOT_X, R2 BRAKES_V, L1 ROLLERCOMMAND_V,TRIANGLE DUMP FUEL FROM INTAKE_V, PS BUTTON GYRO RESET_V, SQUARE TO EXTED/RETRACT INTAKE_V, L2 TO PASS_X
-         * _V means its already added _X it isnt in the robotcontainer
-         * @!#$!@%@$#%!@#$@$@#$!@%#$%%#$%!~!@#$#!$%$#%$$#$#&^&^%*&***&^%^#$%~~&)(*&^%$#@)&&^%$^#$###$%$%$%$%~!!@$$%!@$#@$%%^&*^%%^#$&$
-         */
-        //ADD OPTION TO SHOOT WITHOUT VISION FROM A SET PLACE(MAYBE WITH GLOBAL MAP)
-
-
-
-
-        
-
     }
         public static void configureDriveBindings(){
         new Trigger(RobotState::isTeleop).and(RobotState::isEnabled).whileTrue(
@@ -241,17 +207,14 @@ public class RobotContainer {
         SmartDashboard.putString("Current Shift", HubTracker.getCurrentShift().orElseGet(() -> HubTracker.Shift.AUTO).toString());
 
         SmartDashboard.putNumber("Fuel Approximation", fuelApproximation);
-        SmartDashboard.putString("Distance to Hub", String.format("%.2f", distanceFromHub().in(Meters)));
-        SmartDashboard.putBoolean("In Alliance Zone", inAllianceZone());
-        SmartDashboard.putBoolean("Auto Ejecting", withAutoEject);
+        SmartDashboard.putString("Distance to Hub", String.format("%.2f", distanceFromHub()));
+
     }
 
     public static void updateLogging(){
         Logger.recordOutput("Shooting/Angle to Hub", angleToHub());
         Logger.recordOutput("Shooting/Distance To Hub", distanceFromHub().in(Meters));
         Logger.recordOutput("Shooting/In Alliance Zone", inAllianceZone());
-        Logger.recordOutput("Shooting/Auto Ejecting", withAutoEject);
         Logger.recordOutput("Shooting/Fuel Approximation", fuelApproximation);
     }
-
 }   

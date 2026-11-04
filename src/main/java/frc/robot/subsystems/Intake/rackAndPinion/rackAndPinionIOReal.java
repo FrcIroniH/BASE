@@ -12,8 +12,6 @@ public class rackAndPinionIOReal implements rackAndPinionIO {
         pinionMotor = new MarinersTalonFX("pinionMotor", rackAndPinionConstants.CONTROLLER_LOCATION, rackAndPinionConstants.motorID);
         pinionMotor.setCurrentLimits(rackAndPinionConstants.currentLimit, rackAndPinionConstants.currentThreshhold);
         pinionMotor.setProfile(new Constraints(0.405, 0.2));
-        pinionMotor.setMotorIdleMode(true);
-
     }
     public void resetAngleEncoder() {
         pinionMotor.resetMotorEncoder();
@@ -24,7 +22,7 @@ public class rackAndPinionIOReal implements rackAndPinionIO {
     public void update(rackAndPinionInputs rackinputs) {
         rackinputs.PinionRotation = pinionMotor.getPosition();
         rackinputs.current = rackAndPinionConstants.getCurrent(pinionMotor);
-        rackinputs.stalled = rackAndPinionConstants.isStalled(rackinputs.current, pinionMotor.getVelocity());
+        rackinputs.stalled = rackAndPinionConstants.isStalled(rackinputs.current);
     }
     public void stop() {
         pinionMotor.stopMotor();
