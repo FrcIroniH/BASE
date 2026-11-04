@@ -9,6 +9,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -39,14 +40,12 @@ import frc.robot.subsystems.shooter.kicker.kickerSubsystem;
 public class RobotContainer {
 
     public static CommandPS5Controller driveController;
-    private final DriveBase driveBase = new DriveBase();
-    private final hoodSubsystem hood = new hoodSubsystem(driveBase::getPose);
-    private final flyWheelsubsystem flywheel = new flyWheelsubsystem(driveBase::getPose);    // for SysID:
-    private final hoodSysID hoodSysId = new hoodSysID(hood); 
-    private final flyWheelSysID flywheelSysId = new flyWheelSysID(flywheel);
-    private final kickerSubsystem kicker = new kickerSubsystem();
-    public static Alert brownoutBattery = new Alert("BROWNOUT", AlertType.kError);
+    double distance = SmartDashboard.getNumber("enter distance", 0)
 
+    private final hoodSubsystem hood = new hoodSubsystem();
+    private final flyWheelsubsystem flywheel = new flyWheelsubsystem();    // for SysID:
+    private final hoodSysID hoodSysId = new hoodSysID(hood); 
+    private final kickerSubsystem kicker = new kickerSubsystem();
     private static double tuningOpenHoodPrecent = 1;
     private static double tuningRPM = 0;
     double hoodAngle(boolean raise) {
@@ -103,11 +102,6 @@ public class RobotContainer {
         driveController.cross().whileTrue(new kickerOn(kicker));
         Logger.recordOutput("Shooter/Flywheel/tuningRPM", tuningRPM);
         Logger.recordOutput("Shooter/Hood/tuningOpenHoodPrecent", tuningOpenHoodPrecent);
-
-
-        
-
-
     }
 }
 
