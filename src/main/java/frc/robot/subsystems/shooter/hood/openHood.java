@@ -4,17 +4,18 @@
 
 package frc.robot.subsystems.shooter.hood;
 
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class openHood extends Command {
   private final hoodSubsystem hood;
-  private double DistanceToHub;
+  // Store the supplier itself, not the double
+  private final DoubleSupplier distanceToHubSupplier; 
 
   /** Creates a new openHood. */
-  public openHood(hoodSubsystem hood, double distanceToHub) {
+  public openHood(hoodSubsystem hood, DoubleSupplier distanceToHub) {
     this.hood = hood;
-    this.DistanceToHub = distanceToHub;
+    this.distanceToHubSupplier = distanceToHub; // Assign the supplier
     addRequirements(hood);
   }
 
@@ -25,7 +26,8 @@ public class openHood extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      hood.open(DistanceToHub);
+      // Get the latest double value from the supplier every 20ms loop
+      hood.open(distanceToHubSupplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

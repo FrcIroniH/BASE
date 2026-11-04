@@ -4,14 +4,17 @@
 
 package frc.robot.subsystems.shooter.flywheel;
 
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class flyWheelCommand extends Command {
   private final flyWheelsubsystem flywheel;
-  private double DistanceToHub;
+  private DoubleSupplier DistanceToHub;
   /** Creates a new flyWheelCommand. */
-  public flyWheelCommand(flyWheelsubsystem flywheel, double distanceToHub) {
+  public flyWheelCommand(flyWheelsubsystem flywheel, DoubleSupplier distanceToHub) {
     this.flywheel = flywheel;
     this.DistanceToHub=distanceToHub;
     addRequirements(flywheel);
@@ -23,7 +26,7 @@ public class flyWheelCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.setRPMFromDistance(DistanceToHub); 
+    flywheel.setRPMFromDistance(DistanceToHub.getAsDouble()); 
   }
 
   // Called once the command ends or is interrupted.

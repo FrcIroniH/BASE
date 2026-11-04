@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.Drive.AimDriving;
 import frc.robot.commands.Drive.DriveCommand;
 import frc.robot.commands.Drive.MinorAdjust;
 import frc.robot.commands.Drive.MinorAdjust.AdjustmentDirection;
@@ -78,16 +79,22 @@ public class RobotContainer {
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
         vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
-
         driveController.R1().whileTrue(new transferOn(transfer));
         driveController.L1().whileTrue(new RollerCommands(rollers).alongWith(Commands.startEnd(DriveCommand::slowSpeed, DriveCommand::fullSpeed)));
         driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
         driveController.triangle().whileTrue(new rollersReverse(rollers));
         driveController.triangle().whileTrue(new transferReverse(transfer));
-        driveController.R1().whileTrue(new openHood(hood, distanceFromHub()));
-        driveController.R1().whileTrue(new flyWheelCommand(flywheel, distanceFromHub()));
-        driveController.L2().whileTrue(new openHood(hood, (distanceFromHub() + getDistanceToNearestTrench()) / 2));
-        driveController.L2().whileTrue(new flyWheelCommand(flywheel, (distanceFromHub() + getDistanceToNearestTrench()) / 2));
+        driveController.R1().whileTrue(new flyWheelCommand(flywheel, () -> distanceFromHub()).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
+        driveController.L2().whileTrue(new flyWheelCommand(flywheel, () -> ((distanceFromHub() + getDistanceToNearestTrench()) / 2)).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
+        if  (getDistanceToNearestTrench() > 0.5) {
+            driveController.R1().whileTrue(new openHood(hood, () -> distanceFromHub()));
+            driveController.L2().whileTrue(new openHood(hood, () -> (distanceFromHub() + getDistanceToNearestTrench()) / 2));
+        } else {
+            Commands.runOnce(() -> {
+                new openHood(hood, () -> 0);
+            })
+            ;
+        }
         if (Math.abs(getShootingAngle()) < 2 && (hood.atAngle() && flywheel.atSpeed())) {
             Commands.runOnce(() -> {
                 new transferOn(transfer);
@@ -109,12 +116,6 @@ public class RobotContainer {
             Commands.runOnce(() -> {
                 new intakeFullRetraction(rackAndPinion);
                 rackAndPinionConstants.isExtended = false;
-            })
-            ;
-        }
-        if (getDistanceToNearestTrench() <= 0.5) {
-            Commands.runOnce(() -> {
-                new openHood(hood, 0);
             })
             ;
         }
@@ -214,7 +215,7 @@ public class RobotContainer {
         }
     }
     public static double getDistanceToNearestTrench() {
-        return driveBase.getPose().getTranslation().getDistance(NearestTrench().getTranslation());
+        return Math.abs(driveBase.getPose().getTranslation().getDistance(NearestTrench().getTranslation()));
     }
     public static double getAngleToNearestTrench(){
         return driveBase.getAngleToPose(NearestTrench());
