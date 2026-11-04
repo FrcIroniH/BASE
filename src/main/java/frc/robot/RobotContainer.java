@@ -77,6 +77,7 @@ public class RobotContainer {
     private final transferSubsystem transfer = new transferSubsystem();
     private final rackAndPinionSubsystem rackAndPinion = new rackAndPinionSubsystem();
     private final Rollers rollers = new Rollers();
+    private boolean isShooting = false;
     public static Vision vision;
 
     public static Runnable fuelIncrementer;
@@ -85,15 +86,20 @@ public class RobotContainer {
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
         vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
-        driveController.R1().whileTrue(new transferOn(transfer));
         driveController.L1().whileTrue(new RollerCommands(rollers).alongWith(Commands.startEnd(DriveCommand::slowSpeed, DriveCommand::fullSpeed)));
-        driveController.R1().whileTrue(new flyWheelCommand(flywheel, () -> distanceFromHub()).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
         driveController.L2().whileTrue(new flyWheelCommand(flywheel, () -> ((distanceFromHub() + getDistanceToNearestTrench()) / 2)).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
-
-        
-        
-        if  (getDistanceToNearestTrench() > Constants.FieldConstants.DISTANCE_FROM_TRENCH_TO_CLOSE_HOOD) {
-            driveController.R1().whileTrue(new openHood(hood, () -> distanceFromHub()));
+        driveController.R1().onTrue(
+            Commands.runOnce(() -> {
+            isShooting = true;
+            })
+        );
+        driveController.R1().onFalse(
+            Commands.runOnce(() -> {
+            isShooting = false;
+            })
+        );
+        if (getDistanceToNearestTrench() > Constants.FieldConstants.DISTANCE_FROM_TRENCH_TO_CLOSE_HOOD) {
+            driveController.R1().whileTrue(new flyWheelCommand(flywheel, () -> distanceFromHub()).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())). alongWith(new openHood(hood, () -> distanceFromHub())));
             driveController.L2().whileTrue(new openHood(hood, () -> (distanceFromHub() + getDistanceToNearestTrench()) / 2));
         } else {
             Commands.runOnce(() -> {
@@ -101,7 +107,7 @@ public class RobotContainer {
             })
             ;
         }
-        if (Math.abs(getShootingAngle()) < Constants.SHOOTING_ANGLE_TOLERANCE && (hood.atAngle() && flywheel.atSpeed())) {
+        if (Math.abs(getShootingAngle()) < Constants.SHOOTING_ANGLE_TOLERANCE && (hood.atAngle() && flywheel.atSpeed()) && isShooting) {
             Commands.runOnce(() -> {
                 new transferOn(transfer);
                 new kickerOn(kicker);
