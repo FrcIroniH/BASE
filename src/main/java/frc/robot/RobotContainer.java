@@ -1,14 +1,19 @@
 package frc.robot;
+import static edu.wpi.first.units.Units.Meters;
+
 import java.util.HashMap;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,6 +59,8 @@ public class RobotContainer {
     private final transferSubsystem transfer = new transferSubsystem();
     private final rackAndPinionSubsystem rackAndPinion = new rackAndPinionSubsystem();
     private final Rollers rollers = new Rollers();
+    public static Constants.TrenchLocations trenchLocations = new Constants.TrenchLocations();
+
     // for SysID:
     // private final hoodSysID hoodSysId = new hoodSysID(hood); 
     // private final flyWheelSysID flywheelSysId = new flyWheelSysID(flywheel);
@@ -71,14 +78,23 @@ public class RobotContainer {
     public RobotContainer(){
         driveController = new CommandPS5Controller(0);
         vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
-        // driveController.L2().whileTrue(new openHood(hood)); vision needed
-        // driveController.L2().whileTrue(new flyWheelCommand(flywheel));
-        driveController.R1().whileTrue(new kickerOn(kicker));
+
         driveController.R1().whileTrue(new transferOn(transfer));
         driveController.L1().whileTrue(new RollerCommands(rollers).alongWith(Commands.startEnd(DriveCommand::slowSpeed, DriveCommand::fullSpeed)));
         driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
         driveController.triangle().whileTrue(new rollersReverse(rollers));
         driveController.triangle().whileTrue(new transferReverse(transfer));
+        driveController.R1().whileTrue(new openHood(hood, distanceFromHub()));
+        driveController.R1().whileTrue(new flyWheelCommand(flywheel, distanceFromHub()));
+        driveController.L2().whileTrue(new openHood(hood, (distanceFromHub() + getDistanceToNearestTrench()) / 2));
+        driveController.L2().whileTrue(new flyWheelCommand(flywheel, (distanceFromHub() + getDistanceToNearestTrench()) / 2));
+        if (Math.abs(getShootingAngle()) < 2 && (hood.atAngle() && flywheel.atSpeed())) {
+            Commands.runOnce(() -> {
+                new transferOn(transfer);
+                new kickerOn(kicker);
+            })
+            ;
+        }
         driveController.square().onTrue(
             Commands.runOnce(() -> {
             if (!rackAndPinionConstants.isExtended) {
@@ -149,13 +165,53 @@ public class RobotContainer {
         
 
     }
-    public static double getDistanceToHub(){
-        Translation2d hub = flyWheelConstants.getHubCenter();
-        return driveBase.getPose().getTranslation().getDistance(hub);
+    public static boolean inAllianceZone(){
+        if (Robot.isRedAlliance) return driveBase.getPose().getX() > Constants.FieldConstants.RED_ALLIANCE_ZONE_X;
+        else return driveBase.getPose().getX() < Constants.FieldConstants.BLUE_ALLIANCE_ZONE_X;
     }
-
-    public static double getAngleToHub(){
-        Translation2d hub = flyWheelConstants.getHubCenter();
-        return driveBase.getAngleToPose(new Pose2d(hub, new Rotation2d()));
+    public static double distanceFromHub(){
+        Pose2d hubLocation = Constants.FieldConstants.HUB_POSITION;
+        if(Robot.isRedAlliance){
+            hubLocation = FlippingUtil.flipFieldPose(hubLocation);
+        }
+        return driveBase.getPose().getTranslation().getDistance(hubLocation.getTranslation());
     }
-}
+    public static double angleToHub(){
+        Pose2d hubLocation = Constants.FieldConstants.HUB_POSITION;
+        if(Robot.isRedAlliance) hubLocation = FlippingUtil.flipFieldPose(hubLocation);
+        return driveBase.getAngleToPose(hubLocation);
+    }
+    public static double getShootingAngle(){
+        return inAllianceZone() ? angleToHub() : (getAngleToNearestTrench() + angleToHub()) / 2;
+    }
+    public static Pose2d NearestTrench() {
+        Pose2d UpRightTrench = Constants.TrenchLocations.upRightTrench;
+        Pose2d DownRightTrench = Constants.TrenchLocations.downRightTrench;
+        Pose2d UpLeftTrench = Constants.TrenchLocations.upLeftTrench;
+        Pose2d DownRLeftTrench = Constants.TrenchLocations.downLeftTrench;
+                if (Robot.isRedAlliance) {
+            double distancetoUpTrench = driveBase.getPose().getTranslation().getDistance(UpLeftTrench.getTranslation());
+            double distancetoDownTrench = driveBase.getPose().getTranslation().getDistance(DownRLeftTrench.getTranslation());
+            if (distancetoDownTrench > distancetoUpTrench ) {
+                return UpLeftTrench;
+            } else {
+                return DownRLeftTrench;
+            }
+        } 
+        else {
+            double distancetoUpTrench = driveBase.getPose().getTranslation().getDistance(UpRightTrench.getTranslation());
+            double distancetoDownTrench = driveBase.getPose().getTranslation().getDistance(DownRightTrench.getTranslation());
+            if (distancetoDownTrench > distancetoUpTrench ) {
+                return UpRightTrench;
+            } else {
+                return DownRightTrench;
+            }
+        }
+    }
+    public static double getDistanceToNearestTrench() {
+        return driveBase.getPose().getTranslation().getDistance(NearestTrench().getTranslation());
+    }
+    public static double getAngleToNearestTrench(){
+        return driveBase.getAngleToPose(NearestTrench());
+    }
+}   
