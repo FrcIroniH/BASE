@@ -89,6 +89,8 @@ public class RobotContainer {
         driveController.L1().whileTrue(new RollerCommands(rollers).alongWith(Commands.startEnd(DriveCommand::slowSpeed, DriveCommand::fullSpeed)));
         driveController.R1().whileTrue(new flyWheelCommand(flywheel, () -> distanceFromHub()).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
         driveController.L2().whileTrue(new flyWheelCommand(flywheel, () -> ((distanceFromHub() + getDistanceToNearestTrench()) / 2)).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
+
+        
         
         if  (getDistanceToNearestTrench() > Constants.FieldConstants.DISTANCE_FROM_TRENCH_TO_CLOSE_HOOD) {
             driveController.R1().whileTrue(new openHood(hood, () -> distanceFromHub()));
@@ -105,15 +107,18 @@ public class RobotContainer {
                 new kickerOn(kicker);
             })
             ;
-            if (driveController.triangle().whileTrue(null).getAsBoolean() == true) {
-                new intakeFullExtension(rackAndPinion);
-                new rollersReverse(rollers);
-            }
-        } else {
-            driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
+        } else if (getShootingAngle() == (getAngleToNearestTrench() + angleToHub()) / 2){
             driveController.triangle().whileTrue(new transferReverse(transfer));
-            driveController.triangle().whileTrue(new rollersReverse(rollers));
         }
+        driveController.triangle().whileTrue(
+            Commands.runOnce(() -> {
+            if (!rackAndPinionConstants.isExtended) {
+                new intakeFullExtension(rackAndPinion);
+                rackAndPinionConstants.isExtended = true;
+            } 
+            new rollersReverse(rollers);
+        })
+        );
         driveController.square().onTrue(
             Commands.runOnce(() -> {
             if (!rackAndPinionConstants.isExtended) {
