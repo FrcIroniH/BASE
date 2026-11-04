@@ -27,8 +27,7 @@ public class rackAndPinionConstants {
         return highCurrent;
 
     }
-    public static boolean isStalled(double Current, double velocity) {
-        boolean notMoving = Math.abs(velocity) < STALL_VELOCITY;
-        return stallDebouncer.calculate(highCurrent(Current) && notMoving);
+    public static boolean isStalled(double Current) {
+        return stallDebouncer.calculate(highCurrent(Current));
     }
 }

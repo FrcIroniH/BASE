@@ -112,7 +112,12 @@ public class RobotContainer {
             })
             ;
         }
-        
+        if (getDistanceToNearestTrench() <= 0.5) {
+            Commands.runOnce(() -> {
+                new openHood(hood, 0);
+            })
+            ;
+        }
         // for SysID:
         // driveController.L2().whileTrue(new openHood(hood));
         // driveController.R2().whileTrue(new flyWheelCommand(flywheel));
