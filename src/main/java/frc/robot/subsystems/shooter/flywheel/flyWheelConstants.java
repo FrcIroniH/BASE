@@ -23,7 +23,6 @@ public class flyWheelConstants {
     public static final double KV = 0.36;  
     public static final PIDFGains PID = new PIDFGains(0.05, 0, 0, KV);
     public static final double RPM_TOLERANCE = 100;
-    public static final boolean tuningmode = false;
 
 
 

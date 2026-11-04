@@ -4,35 +4,35 @@
 
 package frc.robot.subsystems.shooter.flywheel;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+/**
+ * Spins the flywheel at whatever RPM the supplier gives, read EVERY loop. Stops when the command ends.
+ * Tuning:  new flyWheelCommand(flywheel, () -> tuningRPM)
+ * Match:   new flyWheelCommand(flywheel, () -> flyWheelConstants.getRPM(distanceToHub))
+ */
 public class flyWheelCommand extends Command {
-  private final flyWheelsubsystem Flywheel;
-  private static double TuningRPM;
-  /** Creates a new flyWheelCommand. */
-  public flyWheelCommand(flyWheelsubsystem flywheel, double tuningRPM) {
-    this.Flywheel = flywheel;
-    this.TuningRPM = tuningRPM;
+  private final flyWheelsubsystem flywheel;
+  private final DoubleSupplier rpm;
+
+  public flyWheelCommand(flyWheelsubsystem flywheel, DoubleSupplier rpm) {
+    this.flywheel = flywheel;
+    this.rpm = rpm;
     addRequirements(flywheel);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Flywheel.setRPMFromDistance(TuningRPM); 
+    flywheel.setRPM(rpm.getAsDouble());
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Flywheel.stop();
+    flywheel.stop();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

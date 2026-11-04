@@ -4,34 +4,30 @@
 
 package frc.robot.subsystems.shooter.hood;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+/**
+ * Holds the hood at whatever percent the supplier gives, read EVERY loop.
+ * Tuning:  new openHood(hood, () -> tuningHoodPercent)
+ * Match:   new openHood(hood, () -> flyWheelConstants.getHoodPercent(distanceToHub))
+ */
 public class openHood extends Command {
-  private final hoodSubsystem Hood;
-  private static double TuningOpenPrecent;
-  /** Creates a new openHood. */
-  public openHood(hoodSubsystem hood, double tuningOpenPrecent) {
-    this.Hood = hood;
-    this.TuningOpenPrecent = tuningOpenPrecent;
+  private final hoodSubsystem hood;
+  private final DoubleSupplier openPercent;
+
+  public openHood(hoodSubsystem hood, DoubleSupplier openPercent) {
+    this.hood = hood;
+    this.openPercent = openPercent;
     addRequirements(hood);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      Hood.open(TuningOpenPrecent);
+    hood.open(openPercent.getAsDouble());
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
