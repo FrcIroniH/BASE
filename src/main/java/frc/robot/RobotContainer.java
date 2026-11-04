@@ -58,9 +58,18 @@ import frc.robot.subsystems.shooter.hood.hoodSysID;
 import frc.robot.subsystems.shooter.hood.openHood;
 import frc.robot.subsystems.shooter.kicker.kickerOn;
 import frc.robot.subsystems.shooter.kicker.kickerSubsystem;
+import frc.util.HubTracker;
 
 public class RobotContainer {
+    public static Alert controllerDisconnected = new Alert("Drive Controller Disconnect", AlertType.kError);
+    public static Alert brownoutBattery = new Alert("BROWNOUT", AlertType.kError);
+    public static void pollAlerts(){
+        controllerDisconnected.set(!driveController.isConnected());
+        brownoutBattery.set(RobotController.isBrownedOut());
+    }
+
     public static CommandPS5Controller driveController;
+
     private static final DriveBase driveBase = new DriveBase();
     private final hoodSubsystem hood = new hoodSubsystem();
     private final flyWheelsubsystem flywheel = new flyWheelsubsystem();
@@ -68,19 +77,9 @@ public class RobotContainer {
     private final transferSubsystem transfer = new transferSubsystem();
     private final rackAndPinionSubsystem rackAndPinion = new rackAndPinionSubsystem();
     private final Rollers rollers = new Rollers();
-    public static Constants.TrenchLocations trenchLocations = new Constants.TrenchLocations();
-    public static Alert brownoutBattery = new Alert("BROWNOUT", AlertType.kError);
-    public static void pollAlerts(){
-        controllerDisconnected.set(!driveController.isConnected());
-        brownoutBattery.set(RobotController.isBrownedOut());
-    }
 
     public static Vision vision;
-    public static LoggedDashboardChooser<Command> autoChooser;
-    public static LoggedDashboardChooser<String> sideChooser;
-    public static HashMap<String, Command> mirroredAutoMap = new HashMap<>();
-    public static PathPlannerPath upLeftTrenchPath;
-    public static PathPlannerPath upRightTrenchPath;
+
     public static Runnable fuelIncrementer;
     public static int fuelApproximation = 0;
         
@@ -89,11 +88,9 @@ public class RobotContainer {
         vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
         driveController.R1().whileTrue(new transferOn(transfer));
         driveController.L1().whileTrue(new RollerCommands(rollers).alongWith(Commands.startEnd(DriveCommand::slowSpeed, DriveCommand::fullSpeed)));
-        driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
-        driveController.triangle().whileTrue(new rollersReverse(rollers));
-        driveController.triangle().whileTrue(new transferReverse(transfer));
         driveController.R1().whileTrue(new flyWheelCommand(flywheel, () -> distanceFromHub()).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
         driveController.L2().whileTrue(new flyWheelCommand(flywheel, () -> ((distanceFromHub() + getDistanceToNearestTrench()) / 2)).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
+        
         if  (getDistanceToNearestTrench() > Constants.FieldConstants.DISTANCE_FROM_TRENCH_TO_CLOSE_HOOD) {
             driveController.R1().whileTrue(new openHood(hood, () -> distanceFromHub()));
             driveController.L2().whileTrue(new openHood(hood, () -> (distanceFromHub() + getDistanceToNearestTrench()) / 2));
@@ -109,7 +106,11 @@ public class RobotContainer {
                 new kickerOn(kicker);
             })
             ;
+        } else {
+            driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
+            driveController.triangle().whileTrue(new transferReverse(transfer));
         }
+        driveController.triangle().whileTrue(new rollersReverse(rollers));
         driveController.square().onTrue(
             Commands.runOnce(() -> {
             if (!rackAndPinionConstants.isExtended) {
@@ -144,8 +145,6 @@ public class RobotContainer {
         driveController.povUpRight().whileTrue(new MinorAdjust(driveBase, AdjustmentDirection.FRONT_RIGHT));
         driveController.povDownLeft().whileTrue(new MinorAdjust(driveBase, AdjustmentDirection.BACK_LEFT));
         driveController.povDownRight().whileTrue(new MinorAdjust(driveBase, AdjustmentDirection.BACK_RIGHT));
-        
-
     }
     public static boolean inAllianceZone(){
         if (Robot.isRedAlliance) return driveBase.getPose().getX() > Constants.FieldConstants.RED_ALLIANCE_ZONE_X;
@@ -201,20 +200,10 @@ public class RobotContainer {
         SmartDashboard.putNumber("Robot Velocity", driveBase.getVelocity());
         SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
         SmartDashboard.putNumber("PDH Voltage", ConduitApi.getInstance().getPDPVoltage());
-
         SmartDashboard.putBoolean("Is Hub Active", HubTracker.isActive(DriverStation.getAlliance().orElseGet(() -> Alliance.Red)));
         SmartDashboard.putNumber("Time left in Shift", Math.floor(HubTracker.timeRemainingInCurrentShift().orElseGet(() -> Second.zero()).in(Second) * 100) / 100);
         SmartDashboard.putString("Current Shift", HubTracker.getCurrentShift().orElseGet(() -> HubTracker.Shift.AUTO).toString());
-
         SmartDashboard.putNumber("Fuel Approximation", fuelApproximation);
         SmartDashboard.putString("Distance to Hub", String.format("%.2f", distanceFromHub()));
-
-    }
-
-    public static void updateLogging(){
-        Logger.recordOutput("Shooting/Angle to Hub", angleToHub());
-        Logger.recordOutput("Shooting/Distance To Hub", distanceFromHub().in(Meters));
-        Logger.recordOutput("Shooting/In Alliance Zone", inAllianceZone());
-        Logger.recordOutput("Shooting/Fuel Approximation", fuelApproximation);
     }
 }   
