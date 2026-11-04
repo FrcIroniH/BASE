@@ -1,8 +1,10 @@
 package frc.robot;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Second;
 
 import java.util.HashMap;
 
+import org.littletonrobotics.conduit.ConduitApi;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -14,8 +16,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -61,11 +68,14 @@ public class RobotContainer {
     private final rackAndPinionSubsystem rackAndPinion = new rackAndPinionSubsystem();
     private final Rollers rollers = new Rollers();
     public static Constants.TrenchLocations trenchLocations = new Constants.TrenchLocations();
-
     // for SysID:
     // private final hoodSysID hoodSysId = new hoodSysID(hood); 
     // private final flyWheelSysID flywheelSysId = new flyWheelSysID(flywheel);
     public static Alert brownoutBattery = new Alert("BROWNOUT", AlertType.kError);
+    public static void pollAlerts(){
+        controllerDisconnected.set(!driveController.isConnected());
+        brownoutBattery.set(RobotController.isBrownedOut());
+    }
     // public static Constants.TrenchLocations trenchLocations = new Constants.TrenchLocations(); // need to create TrenchLocations()
     public static Vision vision;
     public static LoggedDashboardChooser<Command> autoChooser;
@@ -86,7 +96,7 @@ public class RobotContainer {
         driveController.triangle().whileTrue(new transferReverse(transfer));
         driveController.R1().whileTrue(new flyWheelCommand(flywheel, () -> distanceFromHub()).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
         driveController.L2().whileTrue(new flyWheelCommand(flywheel, () -> ((distanceFromHub() + getDistanceToNearestTrench()) / 2)).alongWith(new AimDriving(driveBase, driveController, () -> angleToHub())));
-        if  (getDistanceToNearestTrench() > 0.5) {
+        if  (getDistanceToNearestTrench() > Constants.FieldConstants.DISTANCE_FROM_TRENCH_TO_CLOSE_HOOD) {
             driveController.R1().whileTrue(new openHood(hood, () -> distanceFromHub()));
             driveController.L2().whileTrue(new openHood(hood, () -> (distanceFromHub() + getDistanceToNearestTrench()) / 2));
         } else {
@@ -95,7 +105,7 @@ public class RobotContainer {
             })
             ;
         }
-        if (Math.abs(getShootingAngle()) < 2 && (hood.atAngle() && flywheel.atSpeed())) {
+        if (Math.abs(getShootingAngle()) < Constants.SHOOTING_ANGLE_TOLERANCE && (hood.atAngle() && flywheel.atSpeed())) {
             Commands.runOnce(() -> {
                 new transferOn(transfer);
                 new kickerOn(kicker);
@@ -220,4 +230,28 @@ public class RobotContainer {
     public static double getAngleToNearestTrench(){
         return driveBase.getAngleToPose(NearestTrench());
     }
+    public static void updateElastic(){
+        SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+        SmartDashboard.putNumber("Robot Velocity", driveBase.getVelocity());
+        SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
+        SmartDashboard.putNumber("PDH Voltage", ConduitApi.getInstance().getPDPVoltage());
+
+        SmartDashboard.putBoolean("Is Hub Active", HubTracker.isActive(DriverStation.getAlliance().orElseGet(() -> Alliance.Red)));
+        SmartDashboard.putNumber("Time left in Shift", Math.floor(HubTracker.timeRemainingInCurrentShift().orElseGet(() -> Second.zero()).in(Second) * 100) / 100);
+        SmartDashboard.putString("Current Shift", HubTracker.getCurrentShift().orElseGet(() -> HubTracker.Shift.AUTO).toString());
+
+        SmartDashboard.putNumber("Fuel Approximation", fuelApproximation);
+        SmartDashboard.putString("Distance to Hub", String.format("%.2f", distanceFromHub().in(Meters)));
+        SmartDashboard.putBoolean("In Alliance Zone", inAllianceZone());
+        SmartDashboard.putBoolean("Auto Ejecting", withAutoEject);
+    }
+
+    public static void updateLogging(){
+        Logger.recordOutput("Shooting/Angle to Hub", angleToHub());
+        Logger.recordOutput("Shooting/Distance To Hub", distanceFromHub().in(Meters));
+        Logger.recordOutput("Shooting/In Alliance Zone", inAllianceZone());
+        Logger.recordOutput("Shooting/Auto Ejecting", withAutoEject);
+        Logger.recordOutput("Shooting/Fuel Approximation", fuelApproximation);
+    }
+
 }   
