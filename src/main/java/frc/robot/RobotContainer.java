@@ -77,7 +77,6 @@ public class RobotContainer {
     private final transferSubsystem transfer = new transferSubsystem();
     private final rackAndPinionSubsystem rackAndPinion = new rackAndPinionSubsystem();
     private final Rollers rollers = new Rollers();
-
     public static Vision vision;
 
     public static Runnable fuelIncrementer;
@@ -106,11 +105,15 @@ public class RobotContainer {
                 new kickerOn(kicker);
             })
             ;
+            if (driveController.triangle().whileTrue(null).getAsBoolean() == true) {
+                new intakeFullExtension(rackAndPinion);
+                new rollersReverse(rollers);
+            }
         } else {
             driveController.triangle().whileTrue(new intakeFullExtension(rackAndPinion));
             driveController.triangle().whileTrue(new transferReverse(transfer));
+            driveController.triangle().whileTrue(new rollersReverse(rollers));
         }
-        driveController.triangle().whileTrue(new rollersReverse(rollers));
         driveController.square().onTrue(
             Commands.runOnce(() -> {
             if (!rackAndPinionConstants.isExtended) {
