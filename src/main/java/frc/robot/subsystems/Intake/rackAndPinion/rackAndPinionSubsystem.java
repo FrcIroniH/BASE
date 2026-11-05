@@ -32,7 +32,7 @@ public class rackAndPinionSubsystem extends SubsystemBase {
         return rackinputs.currentStalled;
     }
     public boolean isJammed() {
-        return rackinputs.currentStalled && rackinputs.enchoderStalled;
+        return rackinputs.currentStalled && !rackinputs.enchoderStalled;
     }
 
 }
