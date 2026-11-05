@@ -7,7 +7,8 @@ public interface rackAndPinionIO {
     public class rackAndPinionInputs {
         double PinionRotation;
         double current;
-        boolean stalled;
+        boolean currentStalled;
+        boolean enchoderStalled;
     }
     void resetAngleEncoder();
     void extendTo(double PinionRotation);

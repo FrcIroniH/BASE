@@ -23,12 +23,16 @@ public class rackAndPinionSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         io.update(rackinputs);
-        if (rackinputs.stalled) {
+        if (rackinputs.currentStalled) {
             io.stop();
         }
     }
 
-    public boolean isStalled() {
-        return rackinputs.stalled;
+    public boolean isCurrentStalled() {
+        return rackinputs.currentStalled;
     }
+    public boolean isJammed() {
+        return rackinputs.currentStalled && rackinputs.enchoderStalled;
+    }
+
 }

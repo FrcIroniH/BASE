@@ -20,9 +20,10 @@ public class rackAndPinionIOReal implements rackAndPinionIO {
         pinionMotor.setReference(PinionRotation, ControlMode.Position);
     }
     public void update(rackAndPinionInputs rackinputs) {
-        rackinputs.PinionRotation = pinionMotor.getPosition();
+        rackinputs.PinionRotation = rackAndPinionConstants.getEnchoder(pinionMotor);
         rackinputs.current = rackAndPinionConstants.getCurrent(pinionMotor);
-        rackinputs.stalled = rackAndPinionConstants.isStalled(rackinputs.current);
+        rackinputs.currentStalled = rackAndPinionConstants.isCurrentStalled(rackinputs.current);
+        rackinputs.enchoderStalled = rackAndPinionConstants.isEnchoderStalled(rackinputs.PinionRotation);
     }
     public void stop() {
         pinionMotor.stopMotor();
