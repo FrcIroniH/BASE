@@ -134,8 +134,6 @@ public class RobotContainer {
                 new rollersReverse(rollers),
                 Commands.either(new transferReverse(transfer), Commands.none(), () -> !inAllianceZone())
             ).withName("Outtake");
- 
-
         pass = () ->
             Commands.parallel(
                 new flyWheelCommand(flywheel, RobotContainer::passDistance),
@@ -153,7 +151,7 @@ public class RobotContainer {
             new transferOn(transfer)
                 .alongWith(new kickerOn(kicker))
                 .withName("Feed");
-    }
+        }
  
     public static void configureDefaultCommands() {
         hood.setDefaultCommand(new openHood(hood, () -> 0));
