@@ -41,6 +41,7 @@ import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionSubsystem;
 import frc.robot.subsystems.Intake.transfer.transferOn;
 import frc.robot.subsystems.Intake.transfer.transferReverse;
 import frc.robot.subsystems.Intake.transfer.transferSubsystem;
+import frc.robot.subsystems.Shooter.hood.hoodTuning;
 import frc.robot.subsystems.shooter.flywheel.flyWheelCommand;
 import frc.robot.subsystems.shooter.flywheel.flyWheelsubsystem;
 import frc.robot.subsystems.shooter.hood.hoodSubsystem;
@@ -86,22 +87,25 @@ public class RobotContainer {
         driveController = new CommandPS5Controller(0);
  
         driveBase = new DriveBase();
-        hood = new hoodSubsystem();
-        flywheel = new flyWheelsubsystem();
-        kicker = new kickerSubsystem();
+        hoodSubsystem hood = new hoodSubsystem();
+        flywheel flywheel = new flyWheelsubsystem();
+        kickerSubsystem kicker = new kickerSubsystem();
         transfer = new transferSubsystem();
         rackAndPinion = new rackAndPinionSubsystem();
         rollers = new Rollers();
- 
+
         vision = new Vision(driveBase::addVisionMeasurement, driveBase::getPose, driveBase::reset);
  
         configureCommands();
         configureDefaultCommands();
         configureMechanismBindings();
         configureDriveBindings();
+        driveController.L2().onTrue(new hoodTuning(hood, () -> -0.02));
+        driveController.L1().onTrue(new hoodTuning(hood, () -> 0.02));
     }
  
     //#region Commands
+    
     public static void configureCommands() {
         fuelIncrementer = () -> fuelApproximation += 3;
  
@@ -175,7 +179,7 @@ public class RobotContainer {
         new Trigger(() -> rackAndPinion.isJammed() && intakeExtended)
             .onTrue(retractIntake.get());
         }
- 
+    
     public static void configureDriveBindings() {
         new Trigger(RobotState::isTeleop).and(RobotState::isEnabled).whileTrue(
             new StartEndCommand(() -> driveBase.setDefaultCommand(new DriveCommand(driveBase, driveController)),
@@ -260,7 +264,7 @@ public class RobotContainer {
             return downTrench;
         }
     }
-
+    
  
     public static double getDistanceToNearestTrench() {
         return driveBase.getPose().getTranslation().getDistance(NearestTrench().getTranslation());
