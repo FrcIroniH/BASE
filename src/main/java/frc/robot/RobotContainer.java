@@ -41,15 +41,17 @@ import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionSubsystem;
 import frc.robot.subsystems.Intake.transfer.transferOn;
 import frc.robot.subsystems.Intake.transfer.transferReverse;
 import frc.robot.subsystems.Intake.transfer.transferSubsystem;
-import frc.robot.subsystems.Shooter.hood.hoodTuning;
+import frc.robot.subsystems.shooter.hood.hoodTuning;
 import frc.robot.subsystems.shooter.flywheel.flyWheelCommand;
 import frc.robot.subsystems.shooter.flywheel.flyWheelsubsystem;
+import frc.robot.subsystems.shooter.flywheel.flywheelTuning;
 import frc.robot.subsystems.shooter.hood.hoodSubsystem;
 import frc.robot.subsystems.shooter.hood.openHood;
 import frc.robot.subsystems.shooter.kicker.kickerOn;
 import frc.robot.subsystems.shooter.kicker.kickerSubsystem;
 import frc.util.HubTracker;
 import java.util.function.BooleanSupplier;
+import org.littletonrobotics.junction.Logger;
  
 public class RobotContainer {
     
@@ -88,7 +90,7 @@ public class RobotContainer {
  
         driveBase = new DriveBase();
         hoodSubsystem hood = new hoodSubsystem();
-        flywheel flywheel = new flyWheelsubsystem();
+        flyWheelsubsystem flywheel = new flyWheelsubsystem();
         kickerSubsystem kicker = new kickerSubsystem();
         transfer = new transferSubsystem();
         rackAndPinion = new rackAndPinionSubsystem();
@@ -100,11 +102,17 @@ public class RobotContainer {
         configureDefaultCommands();
         configureMechanismBindings();
         configureDriveBindings();
-        driveController.L2().onTrue(new hoodTuning(hood, () -> -0.02));
-        driveController.L1().onTrue(new hoodTuning(hood, () -> 0.02));
+        tuning();
+        
     }
  
     //#region Commands
+    public static void tuning() {
+        driveController.L2().onTrue(new hoodTuning(hood, () -> -0.02));
+        driveController.L2().onTrue(new flywheelTuning(flywheel, () -> -10));
+        driveController.L1().onTrue(new hoodTuning(hood, () -> 0.02));
+        driveController.L1().onTrue(new flywheelTuning(flywheel, () -> 10));
+    }
     
     public static void configureCommands() {
         fuelIncrementer = () -> fuelApproximation += 3;

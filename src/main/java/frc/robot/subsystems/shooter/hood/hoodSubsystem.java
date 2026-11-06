@@ -41,5 +41,6 @@ public class hoodSubsystem extends SubsystemBase {
     public void periodic() {
         io.update(inputs);
         Logger.processInputs("Shooter/Hood", inputs);
+        Logger.recordOutput("Shooter/Hood/Angle", inputs.hoodOpen);
     }
 }

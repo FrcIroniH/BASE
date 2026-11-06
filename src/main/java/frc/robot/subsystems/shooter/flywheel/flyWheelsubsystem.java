@@ -38,6 +38,7 @@ public class flyWheelsubsystem extends SubsystemBase {
         Logger.processInputs("Shooter/Flywheel", inputs);
         Logger.recordOutput("Shooter/Flywheel/TargetRPM", targetRPM);
         Logger.recordOutput("Shooter/Flywheel/AtSpeed", atSpeed());
+        Logger.recordOutput("shooter/flywheel/RPM", inputs.currentRPM);
     }
     public void setVoltage(Voltage voltage) {
         targetRPM = 0;
