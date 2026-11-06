@@ -13,6 +13,7 @@ import frc.robot.subsystems.shooter.flywheel.flyWheelConstants;
 public class hoodSubsystem extends SubsystemBase {
     private final hoodIO io;
     private final hoodIOInputsAutoLogged inputs = new hoodIOInputsAutoLogged();
+    double HoodPrecent;
     private double targetPosition = 0;
     public hoodSubsystem() {
         io = new hoodIOReal();
@@ -21,8 +22,9 @@ public class hoodSubsystem extends SubsystemBase {
     public void resetAngleEncoder() {
         io.resetAngleEncoder();
     }
-    public void open(double distanceToHub) {
-        targetPosition = hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS * flyWheelConstants.getHoodPercent(distanceToHub);
+    public void open(double hoodPrecent) {
+        HoodPrecent = hoodPrecent;
+        targetPosition = hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS * HoodPrecent;
         io.openToPosition(targetPosition);
     }
     public boolean atAngle() {
@@ -40,6 +42,5 @@ public class hoodSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         io.update(inputs);
-        Logger.processInputs("Shooter/Hood", inputs);
     }
 }

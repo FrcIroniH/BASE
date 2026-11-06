@@ -7,6 +7,7 @@ public interface hoodIO {
     public class hoodIOInputs {
         double hoodOpen;
         double hoodVelocity;
+        double HoodPrecent;
     }
     void resetAngleEncoder();
     void openToPosition(double openPosition);

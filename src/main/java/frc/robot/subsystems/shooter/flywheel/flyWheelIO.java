@@ -6,7 +6,6 @@ public interface flyWheelIO {
     @AutoLog
     class flyWheelInputs {
         double currentRPM;
-        double distanceToHub;
     }
     void setRPM(double RPM);
     void update(flyWheelInputs inputs);

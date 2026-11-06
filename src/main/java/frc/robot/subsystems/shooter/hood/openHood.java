@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class openHood extends Command {
   private final hoodSubsystem hood;
   // Store the supplier itself, not the double
-  private final DoubleSupplier distanceToHubSupplier; 
+  private DoubleSupplier HoodPrecent;
 
   /** Creates a new openHood. */
-  public openHood(hoodSubsystem hood, DoubleSupplier distanceToHub) {
+  public openHood(hoodSubsystem hood, DoubleSupplier hoodPrecent) {
+    this.HoodPrecent = hoodPrecent;
     this.hood = hood;
-    this.distanceToHubSupplier = distanceToHub; // Assign the supplier
     addRequirements(hood);
   }
 
@@ -27,7 +27,7 @@ public class openHood extends Command {
   @Override
   public void execute() {
       // Get the latest double value from the supplier every 20ms loop
-      hood.open(distanceToHubSupplier.getAsDouble());
+      hood.open(HoodPrecent.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

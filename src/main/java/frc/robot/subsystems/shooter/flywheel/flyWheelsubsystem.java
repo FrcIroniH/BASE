@@ -18,8 +18,8 @@ public class flyWheelsubsystem extends SubsystemBase {
     public flyWheelsubsystem() {
         io = new flyWheelIOReal();
     }
-    public void setRPMFromDistance(double distanceToHub) {
-        targetRPM = flyWheelConstants.getRPM(distanceToHub);
+    public void setRPM(double RPM) {
+        targetRPM = RPM;
         io.setRPM(targetRPM);
     }
 
@@ -35,7 +35,6 @@ public class flyWheelsubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         io.update(inputs);
-        Logger.processInputs("Shooter/Flywheel", inputs);
         Logger.recordOutput("Shooter/Flywheel/TargetRPM", targetRPM);
         Logger.recordOutput("Shooter/Flywheel/AtSpeed", atSpeed());
     }

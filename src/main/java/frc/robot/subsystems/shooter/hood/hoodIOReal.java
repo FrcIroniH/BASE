@@ -12,6 +12,7 @@ public class hoodIOReal implements hoodIO {
         hoodMotor.setMotorIdleMode(true);
         hoodMotor.setPIDF(hoodConstants.PID);
         hoodMotor.enableSoftLimits(0, hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS);
+        
     }
     @Override
     public void resetAngleEncoder() {
@@ -25,6 +26,7 @@ public class hoodIOReal implements hoodIO {
     public void update(hoodIOInputs inputs) {
         inputs.hoodOpen = hoodMotor.getPosition();
         inputs.hoodVelocity = hoodMotor.getVelocity();
+
     }
     @Override
     public void setVoltage(double volts) {
