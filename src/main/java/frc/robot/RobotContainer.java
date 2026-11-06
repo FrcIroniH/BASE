@@ -10,6 +10,7 @@ import org.littletonrobotics.conduit.ConduitApi;
  
 import com.pathplanner.lib.util.FlippingUtil;
 
+import edu.wpi.first.hal.SimDevice.Direction;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -102,9 +103,18 @@ public class RobotContainer {
  
     //#region Bindings
     public static void configureMechanismBindings() {
-        driveController.cross().and(RobotContainer::readyToShoot).whileTrue(feed.get());
+        driveController.PS().and(RobotContainer::readyToShoot).whileTrue(feed.get());
+        driveController.cross().whileTrue(
+            hoodSysId.quasistatic(Direction.kForward).alongWith(flywheelSysId.quasistatic(Direction.kForward)));
+        driveController.circle().whileTrue(
+            hoodSysId.quasistatic(Direction.kReverse).alongWith(flywheelSysId.quasistatic(Direction.kReverse)));
+        driveController.square().whileTrue(
+            hoodSysId.dynamic(Direction.kForward).alongWith(flywheelSysId.dynamic(Direction.kForward)));
+        driveController.triangle().whileTrue(
+            hoodSysId.dynamic(Direction.kReverse).alongWith(flywheelSysId.dynamic(Direction.kReverse)));
     }
     //#endregion
+    
 
 
     public void ChangeRPM (boolean raise) {
