@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Drive.AimDriving;
 import frc.robot.commands.Drive.DriveCommand;
@@ -60,11 +61,17 @@ public class RobotContainer {
     public static CommandPS5Controller driveController;
  
     public static hoodSubsystem hood;
+    public static transferSubsystem transfer;
+    public static kickerSubsystem kicker;
     public static flyWheelsubsystem flywheel;
-    private static double flywheelRPM = 0;
+    private static DoubleSupplier flywheelRPM;
 
     //#region Premade Commands
     public static Supplier<Command> shoot;
+    public static Supplier<Command> feed;
+    private static DoubleSupplier HoodPrecent;
+    private static double hoodPrecent = 0;
+    private static double flywheelrPM = 0;
     //#endregion
  
     public RobotContainer() {
@@ -76,39 +83,64 @@ public class RobotContainer {
         configureCommands();
         configureDefaultCommands();
         configureMechanismBindings();
-        configureDriveBindings();
     }
  
     //#region Commands
     public static void configureCommands() { 
-        shoot = () ->
-            Commands.parallel(
-                new flyWheelCommand(flywheel, flywheelRPM),
-                new openHood(hood, () -> nearTrench() ? 0 : distanceFromHub())
-            ).withName("Shoot");
+        feed = () ->
+            new transferOn(transfer)
+                .alongWith(new kickerOn(kicker))
+                .withName("Feed");
+        }
+        
  
     public static void configureDefaultCommands() {
-        hood.setDefaultCommand(new openHood(hood, null));
-        flywheel.setDefaultCommand(new flyWheelCommand(flywheel, () -> flywheelRPM));
+        hood.setDefaultCommand(new openHood(hood, HoodPrecent));
+        flywheel.setDefaultCommand(new flyWheelCommand(flywheel, flywheelRPM));
     }
     //#endregion
  
     //#region Bindings
     public static void configureMechanismBindings() {
- 
-        driveController.cross().whileTrue(shoot.get());
+        driveController.cross().and(RobotContainer::readyToShoot).whileTrue(feed.get());
     }
     //#endregion
 
 
- 
+    public void ChangeRPM (boolean raise) {
+        if (raise) {
+            flywheelrPM += 10;
+        }
+        else {
+            flywheelrPM -=10;
+        }
+        flywheelRPM = () -> flywheelrPM;
+    }
+    public void ChangeHoodPrecent(boolean raise) {
+        if (raise) {
+            hoodPrecent+=0.02;
+        }
+        else {hoodPrecent -= 0.02;}
+        if (hoodPrecent > 1) {
+            hoodPrecent = 1;
+        }
+        if (hoodPrecent < 0) {
+            hoodPrecent = 0;
+        }
+        HoodPrecent = () -> hoodPrecent;
+    }
     //#region Periodic Updates
     public static void pollAlerts() {
         controllerDisconnected.set(!driveController.isConnected());
         brownoutBattery.set(RobotController.isBrownedOut());
     }
     public static void updateElastic() {
-        SmartDashboard.putNumber("RPM", flywheelRPM);
+        SmartDashboard.putNumber("RPM", flywheelrPM);
+        SmartDashboard.putNumber("hood open precent", hoodPrecent);
     }
     //#endregion
+    private static final Debouncer readyToShootDebouncer = new Debouncer(0.1, DebounceType.kRising);
+    public static boolean readyToShoot() {
+        return readyToShootDebouncer.calculate(hood.atAngle() && flywheel.atSpeed());
+    }
 }
