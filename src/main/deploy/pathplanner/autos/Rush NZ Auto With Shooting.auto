@@ -9,15 +9,27 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Rush NZ Collect"
+                  "name": "open intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "start rollers"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Rush NZ Collect"
                 }
               }
             ]
@@ -31,6 +43,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Rush NZ Return Bump"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "stop rollers"
                 }
               },
               {
@@ -52,6 +70,12 @@
           "type": "named",
           "data": {
             "name": "shoot to hub"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
           }
         }
       ]
