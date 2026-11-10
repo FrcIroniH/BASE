@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.573046357615894,
-        "y": 3.3332064017660037
+        "x": 8.676556291390728,
+        "y": 3.691363134657836
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.437527593818984,
-        "y": -0.17576158940397413
+        "x": 8.715275938189844,
+        "y": 1.9876986754966879
       },
       "isLocked": false,
-      "linkedName": "shoot auto part 1 end"
+      "linkedName": "shoot auto part 3 new end"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.5599116997792499
       },
       "prevControl": {
-        "x": 4.964310154525389,
-        "y": 0.5550717439293613
+        "x": 7.810204194260486,
+        "y": 0.10979580573951497
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,25 +30,43 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6931742876076872,
-      "rotationDegrees": 0.0
-    },
-    {
-      "waypointRelativePos": 0.8575215374420136,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.9249394673123427,
+      "rotationDegrees": 90.0
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "stop collecting",
-      "waypointRelativePos": 0.12165775401069534,
+      "name": "start rollers",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "start rollers"
+        }
+      }
+    },
+    {
+      "name": "stop rollers",
+      "waypointRelativePos": 0.1733804475853994,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
           "name": "stop rollers"
+        }
+      }
+    },
+    {
+      "name": "warm up shooter",
+      "waypointRelativePos": 0.7020023557126017,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "warm up shooter"
         }
       }
     }
@@ -66,10 +84,10 @@
     "rotation": 66.18134950026618
   },
   "reversed": false,
-  "folder": "shoot auto paths ",
+  "folder": "shoot trench auto paths ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 73.61045966596531
+    "rotation": 104.67639313745013
   },
   "useDefaultConstraints": true
 }
