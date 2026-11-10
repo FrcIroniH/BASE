@@ -6,15 +6,25 @@ import static edu.wpi.first.units.Units.Second;
 import java.util.function.Supplier;
  
 import org.littletonrobotics.conduit.ConduitApi;
- 
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.json.simple.parser.ParseException;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 import com.pathplanner.lib.util.FlippingUtil;
-
+import java.io.IOException;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.RobotState;
@@ -23,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -48,6 +59,12 @@ import frc.robot.subsystems.shooter.hood.openHood;
 import frc.robot.subsystems.shooter.kicker.kickerOn;
 import frc.robot.subsystems.shooter.kicker.kickerSubsystem;
 import frc.util.HubTracker;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.BooleanSupplier;
  
 public class RobotContainer {
@@ -68,8 +85,15 @@ public class RobotContainer {
  
     public static Runnable fuelIncrementer;
     public static int fuelApproximation = 0;
+    
+     public static PathPlannerPath upLeftTrenchPath;
+    public static PathPlannerPath upRightTrenchPath;
  
     public static boolean intakeExtended = false;
+
+    public static LoggedDashboardChooser<Command> autoChooser;
+    public static LoggedDashboardChooser<String> sideChooser;
+    public static HashMap<String, Command> mirroredAutoMap = new HashMap<>();
  
     //#region Premade Commands
     public static Supplier<Command> intakeWithSlowDrive;
@@ -99,6 +123,7 @@ public class RobotContainer {
         configureDefaultCommands();
         configureMechanismBindings();
         configureDriveBindings();
+        configureChoosers();
     }
  
     //#region Commands
@@ -194,6 +219,107 @@ public class RobotContainer {
         driveController.povDownRight().whileTrue(new MinorAdjust(driveBase, AdjustmentDirection.BACK_RIGHT));
     }
     //#endregion
+    ////#region Choosers
+    public static void configureChoosers(){
+        List<String> namesOfAutos = AutoBuilder.getAllAutoNames();
+        List<PathPlannerAuto> listOfAutos = new ArrayList<>();
+
+        autoChooser = new LoggedDashboardChooser<>("chooser");
+        for (String autoName : namesOfAutos) {
+            PathPlannerAuto auto = new PathPlannerAuto(autoName);
+           listOfAutos.add(auto);
+        }
+
+        listOfAutos.forEach(auto -> autoChooser.addOption(auto.getName(), auto));
+
+        autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+        SmartDashboard.putData("chooser", autoChooser.getSendableChooser());
+
+        new Trigger(RobotState::isEnabled).and(RobotState::isTeleop).onTrue(new InstantCommand(() -> Robot.clearObjectPoseField("AutoPath")).ignoringDisable(true));
+        new Trigger(RobotState::isDisabled).and(checkForPathChoiceUpdate).onTrue(new InstantCommand(() -> updateFieldFromAuto(autoChooser.get().getName())).ignoringDisable(true));
+
+        List<PathPlannerAuto> mirroredListOfAutos = new ArrayList<>();
+        for (String autoName : namesOfAutos) {
+            PathPlannerAuto auto = new PathPlannerAuto(autoName, true);
+            mirroredListOfAutos.add(auto);
+         }
+        for (int i = 0; i < namesOfAutos.size(); i++){
+            mirroredAutoMap.put(namesOfAutos.get(i), mirroredListOfAutos.get(i));
+        }
+
+        sideChooser = new LoggedDashboardChooser<>("sideChooser");
+
+        sideChooser.addDefaultOption("right", "right");
+        sideChooser.addOption("left", "left");
+
+        SmartDashboard.putData("sideChooser",sideChooser.getSendableChooser());
+    }
+
+    private static void updateFieldFromAuto(String autoName) {
+        List<Pose2d> poses = new ArrayList<>();
+
+        try {
+            PathPlannerAuto.getPathGroupFromAutoFile(autoName).forEach(path -> {
+                poses.addAll(path.getPathPoses());
+            });
+        } catch (IOException | ParseException e) {
+            DriverStation.reportError("Error loading auto path", e.getStackTrace());
+        }
+
+        Robot.setTrajectoryField("AutoPath", poses);
+    }
+
+    private static final BooleanSupplier checkForPathChoiceUpdate = new BooleanSupplier() {
+        private String lastAutoName = "InstantCommand";
+
+        @Override
+        public boolean getAsBoolean() {
+            if (autoChooser.get() == null) return false;
+
+            String currentAutoName = autoChooser.get().getName();
+
+            try {
+                return !Objects.equals(lastAutoName, currentAutoName);
+            } finally {
+                lastAutoName = currentAutoName;
+            }
+
+        }
+    };
+
+    public static Command getAuto(){
+        return sideChooser.get().equals("right") ?
+            autoChooser.get() : mirroredAutoMap.get(autoChooser.get().getName());
+    }
+    //#endregion
+        public static void configureTrenchPaths(){
+        try{
+            upLeftTrenchPath = PathPlannerPath.fromPathFile("UpLeft");
+            upRightTrenchPath = PathPlannerPath.fromPathFile("UpRight");
+        }
+        catch (IOException | ParseException | FileVersionException e){
+            DriverStation.reportError("Error loading trench path", e.getStackTrace());
+            upLeftTrenchPath = PathPlannerPath.fromPathPoints(new ArrayList<>(), PathConstraints.unlimitedConstraints(12.0), new GoalEndState(0, Rotation2d.kZero));
+            upRightTrenchPath = PathPlannerPath.fromPathPoints(new ArrayList<>(), PathConstraints.unlimitedConstraints(12.0), new GoalEndState(0, Rotation2d.kZero));
+        }
+    }
+
+    public static Command passTrench(){
+        Pose2d pose = driveBase.getPose();
+        PathPlannerPath targetPath;
+
+        if(Robot.isRedAlliance) pose = FlippingUtil.flipFieldPose(driveBase.getPose());
+        Logger.recordOutput("Trench/Flipped Pose", pose);
+
+        PathPlannerPath path = pose.getX() <= 4.5 ? upLeftTrenchPath : upRightTrenchPath;
+        targetPath = pose.getY() >= 4 ? path : path.mirrorPath();
+        Logger.recordOutput("Trench/Trench Path", targetPath.getPathPoses().toArray(new Pose2d[0]));
+
+        PathPlannerPath flippedTargetPath = Robot.isRedAlliance ? targetPath.flipPath() : targetPath;
+        Logger.recordOutput("Trench/Flipped Trench Path", flippedTargetPath.getPathPoses().toArray(new Pose2d[0]));
+
+        return driveBase.pathFindToPathAndFollow(targetPath);
+   }
  
     //#region Shooting Helpers
     private static final Debouncer readyToShootDebouncer = new Debouncer(0.1, DebounceType.kRising);
