@@ -73,7 +73,7 @@
       },
       "nextControl": {
         "x": 6.114159804741246,
-        "y": 0.25288447865139574
+        "y": 0.25288447865139563
       },
       "isLocked": false,
       "linkedName": null
@@ -164,7 +164,7 @@
     "rotation": 62.6155930928691
   },
   "reversed": false,
-  "folder": "shoot auto paths",
+  "folder": "shoot auto paths ",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 66.18134950026618

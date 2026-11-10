@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 7.810204194260486,
-        "y": 0.10979580573951492
+        "y": 0.10979580573951497
       },
       "nextControl": null,
       "isLocked": false,
@@ -84,7 +84,7 @@
     "rotation": 66.18134950026618
   },
   "reversed": false,
-  "folder": "shoot auto paths",
+  "folder": "shoot auto paths ",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 104.67639313745013
