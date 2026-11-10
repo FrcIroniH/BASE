@@ -20,7 +20,13 @@ public class ShooterIOReal implements ShooterIO {
 
   @Override
   public double getVelocity(){
-    leadMotor.getVelocity();
+    return leadMotor.getVelocity();
+  }
+
+  @Override
+  public void setVelocity(double desired_Velocity){
+    leadMotor.setDutyCycle(desired_Velocity);
+
   }
 
   @Override
