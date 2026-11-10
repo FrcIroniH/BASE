@@ -69,7 +69,7 @@
   "folder": "shoot trench auto paths ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 73.61045966596531
+    "rotation": 73.61
   },
   "useDefaultConstraints": true
 }
