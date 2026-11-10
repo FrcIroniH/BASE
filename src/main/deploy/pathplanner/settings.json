@@ -3,6 +3,7 @@
   "robotLength": 0.808,
   "holonomicMode": true,
   "pathFolders": [
+    "Rush nz bump auto path",
     "auto nz shoot and nz clean ",
     "delayed auto ",
     "depot mid parts ",
