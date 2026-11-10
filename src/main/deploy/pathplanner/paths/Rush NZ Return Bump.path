@@ -1,0 +1,75 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.785579545454546,
+        "y": 3.612420454545455
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.118186414743972,
+        "y": 3.848242797860541
+      },
+      "isLocked": false,
+      "linkedName": "Rush NZ Collect End"
+    },
+    {
+      "anchor": {
+        "x": 5.652068181818181,
+        "y": 2.7672613636363645
+      },
+      "prevControl": {
+        "x": 7.1138049305268485,
+        "y": 3.0421371256937455
+      },
+      "nextControl": {
+        "x": 4.345316695113834,
+        "y": 2.5215301736359805
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.065056818181818,
+        "y": 2.664193181818182
+      },
+      "prevControl": {
+        "x": 2.739370978599235,
+        "y": 2.688991478178398
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 45.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 43.958373323990024
+  },
+  "reversed": false,
+  "folder": "Rush NZ",
+  "idealStartingState": {
+    "velocity": 0.5,
+    "rotation": 90.0
+  },
+  "useDefaultConstraints": true
+}
