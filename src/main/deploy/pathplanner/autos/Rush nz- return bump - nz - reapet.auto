@@ -5,21 +5,73 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "intake"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Rush nz"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Rush nz"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Rush nz return bump"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "warm up shooter"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Rush nz return bump"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "aim to hub"
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shoot to hub"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

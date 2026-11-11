@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.995039849250807,
-        "y": 0.6620836881738109
+        "x": 4.006111604439575,
+        "y": 0.638454998969107
       },
       "isLocked": false,
       "linkedName": null
@@ -20,28 +20,28 @@
         "y": 0.8357891832229587
       },
       "prevControl": {
-        "x": 5.669289160356088,
-        "y": 0.6787342329193526
+        "x": 5.039492280470172,
+        "y": 0.6659871389872978
       },
       "nextControl": {
-        "x": 6.7959858909852064,
-        "y": 0.9850350444901754
+        "x": 7.091258005516957,
+        "y": 0.9545103581525238
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.374608167770419,
-        "y": 1.7021412803532008
+        "x": 7.702110912350424,
+        "y": 1.6417531305891906
       },
       "prevControl": {
-        "x": 7.194078760817619,
-        "y": 1.3723853542018722
+        "x": 7.503984342722247,
+        "y": 1.3183928472868032
       },
       "nextControl": {
-        "x": 7.692596318042253,
-        "y": 2.2829800410181162
+        "x": 8.098593108202438,
+        "y": 2.2888475380463307
       },
       "isLocked": false,
       "linkedName": null
@@ -52,20 +52,15 @@
         "y": 3.198
       },
       "prevControl": {
-        "x": 7.669523407281622,
-        "y": 2.977682386616499
+        "x": 7.65578612990389,
+        "y": 2.8806414872302364
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Rush nz end"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 3.0,
-      "rotationDegrees": 73.301
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -78,8 +73,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.5,
-    "rotation": 73.42933034258398
+    "velocity": 0.5,
+    "rotation": 77.88795083204633
   },
   "reversed": false,
   "folder": "Rush nz bump auto path",
