@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Bump to hub "
+      "linkedName": "Bump shooting"
     }
   ],
   "rotationTargets": [
@@ -73,7 +73,7 @@
   "folder": "Rush nz bump auto path",
   "idealStartingState": {
     "velocity": 0.5,
-    "rotation": 77.88795083204633
+    "rotation": 77.88795083204634
   },
   "useDefaultConstraints": true
 }

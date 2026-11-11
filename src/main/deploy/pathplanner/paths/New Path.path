@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "TrenchShooting"
     }
   ],
   "rotationTargets": [],
@@ -69,7 +69,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 56.68936917539099
+    "rotation": 56.689369175391
   },
   "reversed": false,
   "folder": "Rush nz bump auto path",

@@ -17,6 +17,9 @@ public class rackAndPinionSubsystem extends SubsystemBase {
     public void extend() {
         io.extendTo(rackAndPinionConstants.pinionRotation);
     }
+    public void extendTo(double position) {
+        io.extendTo(position);
+    }
     public void retract() {
         io.extendTo(0);
     }

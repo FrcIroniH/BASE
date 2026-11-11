@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -46,6 +47,7 @@ import frc.robot.subsystems.Vision.Vision;
 import frc.robot.subsystems.Intake.Rollers.RollerCommands;
 import frc.robot.subsystems.Intake.Rollers.Rollers;
 import frc.robot.subsystems.Intake.Rollers.rollersReverse;
+import frc.robot.subsystems.Intake.rackAndPinion.CycleIntake;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullExtension;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullRetraction;
 import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionSubsystem;
@@ -90,6 +92,7 @@ public class RobotContainer {
     public static PathPlannerPath upRightTrenchPath;
  
     public static boolean intakeExtended = false;
+    public static boolean isCyclingIntake = false;
 
     public static LoggedDashboardChooser<Command> autoChooser;
     public static LoggedDashboardChooser<String> sideChooser;
@@ -104,6 +107,11 @@ public class RobotContainer {
     public static Supplier<Command> pass;
     public static Supplier<Command> shoot;
     public static Supplier<Command> feed;
+    public static Supplier<Command> cycleIntakeWhileShooting;
+    public static Supplier<Command> warmpupshooterMin;
+    public static Supplier<Command> warmpupshooterAutoBump;
+    public static Supplier<Command> warmpupshooterAutoTrench;
+
     //#endregion
  
     public RobotContainer() {
@@ -174,10 +182,24 @@ public class RobotContainer {
  
         feed = () ->
             new transferOn(transfer)
+                .beforeStarting(getAuto())
                 .alongWith(new kickerOn(kicker))
                 .withName("Feed");
+        cycleIntakeWhileShooting = () ->
+            new CycleIntake(rackAndPinion)
+                .alongWith(Commands.startEnd(() -> isCyclingIntake = true, () -> isCyclingIntake = false))
+                .withName("cycleIntakeWhileShooting");
+        warmpupshooterMin = () ->
+            new flyWheelCommand(flywheel, () -> Constants.ConstantShootingRanges.MIN_SHOOTING_DISTANCE)
+                .withName("WarmpupshooterMin");
+        warmpupshooterAutoBump = () ->
+            new flyWheelCommand(flywheel, () -> Constants.ConstantShootingRanges.AUTO_BUMP_SHOOTING_DISTANCE)
+                .withName("WarmpupshooterAutoBump");
+        warmpupshooterAutoTrench = () ->
+            new flyWheelCommand(flywheel, () -> Constants.ConstantShootingRanges.AUTO_TRENCH_SHOOTING_DISTANCE)
+                .withName("WarmpupshooterAutoTrench");
         }
- 
+
     public static void configureDefaultCommands() {
         hood.setDefaultCommand(new openHood(hood, () -> 0));
     }
@@ -189,14 +211,22 @@ public class RobotContainer {
  
         driveController.L2().whileTrue(pass.get());
  
-        driveController.R1().whileTrue(shoot.get());
+        driveController.R1().whileTrue(shoot.get(). alongWith(feed.get()). alongWith(cycleIntakeWhileShooting.get()));
 
         driveController.R1().and(RobotContainer::readyToShoot).whileTrue(feed.get());
  
         driveController.triangle().whileTrue(outtake.get());
  
-        driveController.square().onTrue(toggleIntake.get());
- 
+        driveController.square().onTrue(
+            Commands.runOnce(() -> {
+                if (isCyclingIntake) {
+                    CommandScheduler.getInstance().cancel(cycleIntakeWhileShooting.get());
+                }
+                else if (!isCyclingIntake) {
+                    toggleIntake.get();
+                }
+            })
+        ); 
         new Trigger(() -> rackAndPinion.isJammed() && intakeExtended)
             .onTrue(retractIntake.get());
         }
