@@ -19,6 +19,12 @@
                 "data": {
                   "name": "intake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Extend Intake"
+                }
               }
             ]
           }
@@ -36,7 +42,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "warm up shooter"
+                  "name": "WarmpupshooterAutoBump"
                 }
               }
             ]
@@ -56,6 +62,99 @@
                 "type": "named",
                 "data": {
                   "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CycleIntakeWhileShooting"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feed"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Extend Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Hub - Bump - nz"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WarmpupshooterAutoTrench"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Nz - trench"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WarmpupshooterAutoTrench"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feed"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CycleIntakeWhileShooting"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
                 }
               }
             ]
