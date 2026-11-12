@@ -11,18 +11,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "open intake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "start rollers"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "intake"
                 }
               },
@@ -76,6 +64,50 @@
           "type": "wait",
           "data": {
             "waitTime": 5.0
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Rush NZ part 2 with return in trench"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "aim to hub"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot to hub"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              }
+            ]
           }
         }
       ]

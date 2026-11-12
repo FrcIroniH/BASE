@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.118186414743972,
-        "y": 3.848242797860541
+        "x": 8.006834374393007,
+        "y": 3.8016224006966675
       },
       "isLocked": false,
       "linkedName": "Rush NZ Collect End"
@@ -20,12 +20,12 @@
         "y": 2.7672613636363645
       },
       "prevControl": {
-        "x": 7.1138049305268485,
-        "y": 3.0421371256937455
+        "x": 6.347796191140475,
+        "y": 2.8919979387793364
       },
       "nextControl": {
-        "x": 4.345316695113834,
-        "y": 2.5215301736359805
+        "x": 4.743517818737406,
+        "y": 2.6043680215298814
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +36,12 @@
         "y": 2.664193181818182
       },
       "prevControl": {
-        "x": 2.739370978599235,
-        "y": 2.688991478178398
+        "x": 2.598867988542713,
+        "y": 2.677730971052363
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Rush NZ Return Bump End"
     }
   ],
   "rotationTargets": [
@@ -69,7 +69,7 @@
   "folder": "Rush NZ",
   "idealStartingState": {
     "velocity": 0.5,
-    "rotation": 90.0
+    "rotation": 60.94539590092295
   },
   "useDefaultConstraints": true
 }
