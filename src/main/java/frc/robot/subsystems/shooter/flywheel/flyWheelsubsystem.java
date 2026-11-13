@@ -31,6 +31,9 @@ public class flyWheelsubsystem extends SubsystemBase {
     public boolean atSpeed() {
         return targetRPM > 0 && Math.abs(inputs.currentRPM - targetRPM) < flyWheelConstants.RPM_TOLERANCE;
     }
+    public double getCurrent() {
+        return inputs.current;
+    }
 
     @Override
     public void periodic() {

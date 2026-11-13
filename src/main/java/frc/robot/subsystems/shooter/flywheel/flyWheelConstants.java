@@ -6,6 +6,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Robot;
 import frc.util.PIDFGains;
 import frc.util.MarinersController.MarinersController.ControllerLocation;
+import frc.util.MarinersController.MarinersTalonFX;
 
 public class flyWheelConstants {
     public static final ControllerLocation CONTROLLER_LOCATION = ControllerLocation.RIO;
@@ -22,8 +23,10 @@ public class flyWheelConstants {
     public static final double KV = 0.36;  
     public static final PIDFGains PID = new PIDFGains(0.05, 0, 0, KV);
     public static final double RPM_TOLERANCE = 100;
-
-
+    public static final double CURRENT_WHEN_SHOOTING = 115;
+    public static double getCurrent(MarinersTalonFX motor) {
+        return Math.abs(motor.getMotor().getStatorCurrent().getValueAsDouble());
+    }
     private static final double[][] SHOT_TABLE = {
         {1.8, 0.167, 2500},
         {2.3, 0.271, 2630},

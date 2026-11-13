@@ -50,11 +50,16 @@ import frc.robot.subsystems.Intake.Rollers.rollersReverse;
 import frc.robot.subsystems.Intake.rackAndPinion.CycleIntake;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullExtension;
 import frc.robot.subsystems.Intake.rackAndPinion.intakeFullRetraction;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionConstants;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionIO;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionIOReal;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionIO.rackAndPinionInputs;
 import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionSubsystem;
 import frc.robot.subsystems.Intake.transfer.transferOn;
 import frc.robot.subsystems.Intake.transfer.transferReverse;
 import frc.robot.subsystems.Intake.transfer.transferSubsystem;
 import frc.robot.subsystems.shooter.flywheel.flyWheelCommand;
+import frc.robot.subsystems.shooter.flywheel.flyWheelConstants;
 import frc.robot.subsystems.shooter.flywheel.flyWheelsubsystem;
 import frc.robot.subsystems.shooter.hood.hoodSubsystem;
 import frc.robot.subsystems.shooter.hood.openHood;
@@ -75,7 +80,7 @@ public class RobotContainer {
     public static Alert brownoutBattery = new Alert("BROWNOUT", AlertType.kError);
  
     public static CommandPS5Controller driveController;
- 
+    public static CommandPS5Controller driveControllerAdam;
     public static DriveBase driveBase;
     public static hoodSubsystem hood;
     public static flyWheelsubsystem flywheel;
@@ -107,6 +112,7 @@ public class RobotContainer {
     public static Supplier<Command> outtake;
     public static Supplier<Command> pass;
     public static Supplier<Command> shoot;
+    public static Supplier<Command> shootWhileAuto;
     public static Supplier<Command> feed;
     public static Supplier<Command> cycleIntakeWhileShooting;
     public static Supplier<Command> warmpupshooterMin;
@@ -117,7 +123,7 @@ public class RobotContainer {
  
     public RobotContainer() {
         driveController = new CommandPS5Controller(0);
- 
+        driveControllerAdam = new CommandPS5Controller(1);
         driveBase = new DriveBase();
         hood = new hoodSubsystem();
         flywheel = new flyWheelsubsystem();
@@ -278,11 +284,10 @@ public class RobotContainer {
         for (String autoName : namesOfAutos) {
             PathPlannerAuto auto = new PathPlannerAuto(autoName, true);
             mirroredListOfAutos.add(auto);
-         }
+        }
         for (int i = 0; i < namesOfAutos.size(); i++){
             mirroredAutoMap.put(namesOfAutos.get(i), mirroredListOfAutos.get(i));
         }
-
         sideChooser = new LoggedDashboardChooser<>("sideChooser");
 
         sideChooser.addDefaultOption("right", "right");
@@ -430,6 +435,11 @@ public class RobotContainer {
  
     public static double getAngleToNearestTrench() {
         return driveBase.getAngleToPose(NearestTrench());
+        
+    }
+    private static final Debouncer currentJumpsInFlywheel = new Debouncer(0.6, DebounceType.kRising);
+        public static Boolean areBallsGoingIntoShooter() {
+        return currentJumpsInFlywheel.calculate(flywheel.getCurrent() > flyWheelConstants.CURRENT_WHEN_SHOOTING);
     }
     //#endregion
  
