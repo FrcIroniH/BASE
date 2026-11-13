@@ -9,11 +9,11 @@ public interface ShooterIO {
 
     }
     //not good
-    void setDutyCycle(double desired_dutyCycle);
-    void setVelocity(double desired_Velocity);
-    void setPoint(double desired_Angle);
+    void setDutyCycle(double desired_dutyCycle); //needs a rework probably
+    void setVelocity(double desired_Velocity); //needs a rework probably
+    void setPoint(double desired_Angle); //done
 
-    double getVelocity();
+    double getVelocity();//done
     double getAcceleration();
     double getPoint();
 

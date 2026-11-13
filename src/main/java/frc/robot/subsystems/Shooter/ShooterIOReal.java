@@ -1,16 +1,20 @@
 package frc.robot.subsystems.Shooter;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import frc.util.MarinersController.MarinersTalonFX;
+import frc.util.MarinersController.MarinersController.ControlMode;
+import frc.util.MarinersController.MarinersController.ControllerLocation;
 
 public class ShooterIOReal implements ShooterIO {
   MarinersTalonFX leadMotor;
   MarinersTalonFX followMotor;
   MarinersTalonFX hoodMotor;
   public ShooterIOReal(){
-    leadMotor = new MarinersTalonFX("shooter_Motor", null, 123);
-    followMotor = new MarinersTalonFX("shooter_Follow_Motor",    null, 1234);
+    leadMotor = new MarinersTalonFX("shooter_Motor", ControllerLocation.RIO, 123);
+    followMotor = new MarinersTalonFX("shooter_Follow_Motor",    ControllerLocation.RIO, 1234);
     followMotor.setMotorAsFollower(leadMotor, true);
-    hoodMotor = new MarinersTalonFX("hood_motor", null, 12345);
+    hoodMotor = new MarinersTalonFX("hood_motor", ControllerLocation.RIO, 12345);
   }
   @Override
   public void setDutyCycle(double desired_dutyCycle){
@@ -31,8 +35,14 @@ public class ShooterIOReal implements ShooterIO {
 
   @Override
   public void setPoint(double desired_Angle){
+    hoodMotor.setReference(desired_Angle / 360 , ControlMode.Position);
     
 
+  }
+
+  void update(ShooterInputs inputs){
+    @AutoLog
+    
   }
 
 
