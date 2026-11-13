@@ -8,7 +8,7 @@ public interface ShooterIO {
 
 
     }
-
+    //not good
     void setDutyCycle(double desired_dutyCycle);
     void setVelocity(double desired_Velocity);
     void setPoint(double desired_Angle);
