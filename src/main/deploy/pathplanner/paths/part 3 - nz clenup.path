@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 9.24767108168314,
-        "y": 0.11947571744446495
+        "y": 0.119475717444465
       },
       "isLocked": false,
       "linkedName": null
@@ -109,7 +109,7 @@
     "rotation": -76.84545536468035
   },
   "reversed": false,
-  "folder": "auto nz shoot and nz clean",
+  "folder": "auto nz shoot and nz clean ",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 89.53037298031037

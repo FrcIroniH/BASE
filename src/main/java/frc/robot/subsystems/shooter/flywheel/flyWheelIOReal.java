@@ -34,6 +34,7 @@ public class flyWheelIOReal implements flyWheelIO {
     @Override
     public void update(flyWheelInputs inputs) {
         inputs.currentRPM = leadFlyWheel.getVelocity() * 60.0;
+        inputs.current = flyWheelConstants.getCurrent(leadFlyWheel);
     }
     @Override
     public void setVoltage(double volts) {

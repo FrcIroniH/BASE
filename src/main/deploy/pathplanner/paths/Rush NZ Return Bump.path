@@ -3,61 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.781467044649185,
-        "y": 3.414691708008504
+        "x": 7.5,
+        "y": 3.198
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.970986221977798,
-        "y": 3.5777330568274026
+        "x": 6.586763584186264,
+        "y": 2.9720187274554535
       },
       "isLocked": false,
-      "linkedName": "Rush NZ Collect End"
+      "linkedName": "Rush nz end"
     },
     {
       "anchor": {
-        "x": 5.652068181818181,
-        "y": 2.7672613636363645
+        "x": 5.69514348785872,
+        "y": 2.679812362030905
       },
       "prevControl": {
-        "x": 6.477471804749681,
-        "y": 2.954123781629037
+        "x": 7.164872460943343,
+        "y": 2.936283376742603
       },
       "nextControl": {
-        "x": 5.0729087783703335,
-        "y": 2.6361459632131226
+        "x": 4.5607942352122866,
+        "y": 2.4818658636005875
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.065056818181818,
-        "y": 2.664193181818182
+        "x": 3.1541666666666663,
+        "y": 2.549133554083885
       },
       "prevControl": {
-        "x": 2.7263808451776668,
-        "y": 2.6839705676748107
+        "x": 3.4016785646303993,
+        "y": 2.5843167939345686
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Rush NZ Return Bump End"
+      "linkedName": "Bump shooting"
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
-  "pointTowardsZones": [
+  "rotationTargets": [
     {
-      "fieldPosition": {
-        "x": 6.2,
-        "y": 1.0
-      },
-      "rotationOffset": 0.0,
-      "minWaypointRelativePos": 1.0852567121997125,
-      "maxWaypointRelativePos": 1.4510791366906446,
-      "name": "Point Towards Zone"
+      "waypointRelativePos": 1,
+      "rotationDegrees": 45.0
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": 45.0
     }
   ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
@@ -68,14 +66,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -129.7225912514285
+    "velocity": 2.5,
+    "rotation": 47.827104789096296
   },
   "reversed": false,
-  "folder": "Rush NZ",
+  "folder": "Rush nz bump auto path",
   "idealStartingState": {
     "velocity": 0.5,
-    "rotation": 60.94539590092295
+    "rotation": 77.88795083204634
   },
   "useDefaultConstraints": true
 }

@@ -66,10 +66,10 @@
     "rotation": 66.18134950026618
   },
   "reversed": false,
-  "folder": "shoot auto paths",
+  "folder": "shoot trench auto paths ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 73.61045966596531
+    "rotation": 73.61
   },
   "useDefaultConstraints": true
 }

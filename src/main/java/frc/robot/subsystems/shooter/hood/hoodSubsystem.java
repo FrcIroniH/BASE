@@ -21,9 +21,13 @@ public class hoodSubsystem extends SubsystemBase {
     public void resetAngleEncoder() {
         io.resetAngleEncoder();
     }
-    public void open(double distanceToHub) {
+    public void open(double distanceToHub, boolean shouldClose) {
         targetPosition = hoodConstants.MAX_ANGLE_MOVEMENT_IN_MOTOR_ROTATIONS * flyWheelConstants.getHoodPercent(distanceToHub);
-        io.openToPosition(targetPosition);
+        if (shouldClose) {
+            io.openToPosition(0);
+        } else {
+            io.openToPosition(targetPosition);
+        }
     }
     public boolean atAngle() {
         return Math.abs(inputs.hoodOpen - targetPosition) < hoodConstants.POSITION_TOLERANCE_IN_MOTOR_ROTATIONS;
@@ -41,6 +45,5 @@ public class hoodSubsystem extends SubsystemBase {
     public void periodic() {
         io.update(inputs);
         Logger.processInputs("Shooter/Hood", inputs);
-        Logger.recordOutput("Shooter/Hood/Angle", inputs.hoodOpen);
     }
 }

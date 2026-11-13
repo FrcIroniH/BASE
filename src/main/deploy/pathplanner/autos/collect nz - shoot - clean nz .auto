@@ -13,26 +13,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shoot auto part 1"
+            "pathName": "shoot auto part 1 trench"
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "shoot auto part 2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "eject"
-                }
-              }
-            ]
+            "pathName": "shoot auto part 2 trench"
           }
         },
         {
@@ -50,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of shoot auto part 3"
+            "pathName": "part 3 - nz clenup"
           }
         },
         {

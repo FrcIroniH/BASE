@@ -13,7 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shoot auto part 1"
+            "pathName": "shoot auto part 1 trench"
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "shoot auto part 2"
+                  "pathName": "shoot auto part 2 trench"
                 }
               },
               {
@@ -63,7 +63,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shoot auto part 3"
+            "pathName": "shoot auto part 3 trench"
           }
         },
         {

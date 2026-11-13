@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.065056818181818,
-        "y": 0.8304830053667263
+        "x": 7.579195260162109,
+        "y": 1.5808912260933834
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9629555555555553,
-        "y": 0.7316333333333318
+        "x": 8.286004643581403,
+        "y": 1.9081165088786853
       },
       "isLocked": false,
-      "linkedName": "Rush NZ Psrt 2 Return Trench End"
+      "linkedName": "Rush nz part 2 end"
     },
     {
       "anchor": {
-        "x": 6.199305555555555,
-        "y": 0.8304830053667263
+        "x": 5.446779964225062,
+        "y": 0.6357781753070686
       },
       "prevControl": {
-        "x": 5.44411111111111,
-        "y": 0.6550830053667256
+        "x": 6.424376751123319,
+        "y": 0.713936716135974
       },
       "nextControl": {
-        "x": 6.9818440776773425,
-        "y": 1.0122338879240451
+        "x": 5.020042139526431,
+        "y": 0.6016606269047564
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.6707166666666655,
-        "y": 1.1116666666666664
+        "x": 2.980518783542039,
+        "y": 0.7980322003577818
       },
       "prevControl": {
-        "x": 6.749866666666665,
-        "y": 0.9021611111111099
+        "x": 2.6064276059128035,
+        "y": 0.8275476852684847
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "TrenchShooting"
     }
   ],
   "rotationTargets": [],
@@ -49,12 +49,12 @@
   "pointTowardsZones": [
     {
       "fieldPosition": {
-        "x": 0.4,
-        "y": 0.9
+        "x": 8.0,
+        "y": 0.7
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.25,
-      "maxWaypointRelativePos": 0.75,
+      "minWaypointRelativePos": 0.1,
+      "maxWaypointRelativePos": 1.62,
       "name": "Point Towards Zone"
     }
   ],
@@ -69,13 +69,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 84.8055710922651
+    "rotation": 56.689369175391
   },
   "reversed": false,
-  "folder": "Rush NZ",
+  "folder": "Rush nz bump auto path",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.41859507143235
+    "rotation": -58.33924890336338
   },
   "useDefaultConstraints": true
 }

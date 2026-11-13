@@ -8,7 +8,7 @@ public interface rackAndPinionIO {
         double PinionRotation;
         double current;
         boolean currentStalled;
-        boolean enchoderStalled;
+        boolean enchoderStalled;    
     }
     void resetAngleEncoder();
     void extendTo(double PinionRotation);

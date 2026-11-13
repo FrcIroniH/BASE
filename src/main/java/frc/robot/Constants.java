@@ -29,7 +29,11 @@ public final class Constants {
         return Math.abs(unit1.baseUnitMagnitude() - unit2.baseUnitMagnitude()) <= tolerance.baseUnitMagnitude();
     }
     public static final double SHOOTING_ANGLE_TOLERANCE = 2;
-
+    public static class ConstantShootingRanges {
+            public static final double MIN_SHOOTING_DISTANCE = 1.8;
+            public static final double AUTO_BUMP_SHOOTING_DISTANCE = 3;
+            public static final double AUTO_TRENCH_SHOOTING_DISTANCE = 7;
+    }
     public static class FieldConstants{
         public static final Pose2d HUB_POSITION = new Pose2d(4.611,4.046,new Rotation2d());
 

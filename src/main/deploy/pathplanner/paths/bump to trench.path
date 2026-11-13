@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 3.217086092715231,
-        "y": 0.9616280353200849
+        "y": 0.9616280353200848
       },
       "isLocked": false,
       "linkedName": "delay part 1 start"
@@ -45,7 +45,7 @@
     "rotation": 66.18134950026618
   },
   "reversed": false,
-  "folder": "delayed auto",
+  "folder": "delayed auto ",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 90.0
