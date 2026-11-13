@@ -93,6 +93,7 @@ public class RobotContainer {
  
     public static boolean intakeExtended = false;
     public static boolean isCyclingIntake = false;
+    public static boolean isShooting = false;
 
     public static LoggedDashboardChooser<Command> autoChooser;
     public static LoggedDashboardChooser<String> sideChooser;
@@ -169,12 +170,14 @@ public class RobotContainer {
             ).withName("Outtake");
         pass = () ->
             Commands.parallel(
+                new StartEndCommand(() -> isShooting = true, () -> isShooting = false),
                 new flyWheelCommand(flywheel, RobotContainer::passDistance),
                 new openHood(hood, () -> nearTrench() ? 0 : passDistance()),
                 new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle)
             ).withName("Pass");
         shoot = () ->
             Commands.parallel(
+                new StartEndCommand(() -> isShooting = true, () -> isShooting = false),
                 new flyWheelCommand(flywheel, RobotContainer::distanceFromHub),
                 new openHood(hood, () -> nearTrench() ? 0 : distanceFromHub()),
                 new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle)
@@ -229,8 +232,11 @@ public class RobotContainer {
         ); 
         new Trigger(() -> rackAndPinion.isJammed() && intakeExtended)
             .onTrue(retractIntake.get());
+        
+        new Trigger(() -> ((HubTracker.isActive(Robot.isRedAlliance ? Alliance.Red : Alliance.Blue)) && !isShooting)) 
+            .whileTrue(warmpupshooterMin.get());
         }
- 
+        
     public static void configureDriveBindings() {
         new Trigger(RobotState::isTeleop).and(RobotState::isEnabled).whileTrue(
             new StartEndCommand(() -> driveBase.setDefaultCommand(new DriveCommand(driveBase, driveController)),
