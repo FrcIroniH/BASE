@@ -99,12 +99,10 @@ public class RobotContainer {
     public static boolean intakeExtended = false;
     public static boolean isCyclingIntake = false;
     public static boolean isShooting = false;
-    public static boolean PreWarm;
-
 
     public static LoggedDashboardChooser<Command> autoChooser;
     public static LoggedDashboardChooser<String> sideChooser;
-    public static LoggedDashboardChooser<Boolean> preWarm;
+    public static LoggedDashboardChooser<String> preWarm;
     public static HashMap<String, Command> mirroredAutoMap = new HashMap<>();
 
  
@@ -250,7 +248,7 @@ public class RobotContainer {
         
         new Trigger(() -> ((HubTracker.isActive(Robot.isRedAlliance ? Alliance.Red : Alliance.Blue)) && !isShooting)) 
             .whileTrue(warmpupshooterMin.get());
-        new Trigger(() ->(PreWarm && !isShooting))
+        new Trigger(() ->(getPreWarm() && !isShooting))
             .whileTrue(warmpupshooterMin.get());
         }
 
@@ -458,12 +456,15 @@ public class RobotContainer {
         controllerDisconnected.set(!driveController.isConnected());
         brownoutBattery.set(RobotController.isBrownedOut());
     }
+    public static boolean getPreWarm() {
+        return preWarm.get().equals("ON");
+    }
  
     public static void updateElastic() {
         Alliance alliance = Robot.isRedAlliance ? Alliance.Red : Alliance.Blue;
         preWarm = new LoggedDashboardChooser<>("preWarm?");
-        preWarm.addDefaultOption("OFF", PreWarm = false);
-        preWarm.addOption("ON", PreWarm = true);
+        preWarm.addDefaultOption("OFF", "OFF");
+        preWarm.addOption("ON", "ON");
         SmartDashboard.putData("preWarm?",preWarm.getSendableChooser());
 
         SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
