@@ -5,6 +5,9 @@
 package frc.robot.subsystems.shooter.hood;
 
 import java.util.function.DoubleSupplier;
+
+import com.fasterxml.jackson.databind.ser.std.NullSerializer;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class openHood extends Command {
@@ -27,12 +30,14 @@ public class openHood extends Command {
   @Override
   public void execute() {
       // Get the latest double value from the supplier every 20ms loop
-      hood.open(distanceToHubSupplier.getAsDouble());
+      hood.open(distanceToHubSupplier.getAsDouble(), false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    hood.open(0, true);
+  }
 
   // Returns true when the command should end.
   @Override

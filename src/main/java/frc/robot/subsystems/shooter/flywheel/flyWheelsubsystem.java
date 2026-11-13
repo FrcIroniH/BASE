@@ -31,6 +31,9 @@ public class flyWheelsubsystem extends SubsystemBase {
     public boolean atSpeed() {
         return targetRPM > 0 && Math.abs(inputs.currentRPM - targetRPM) < flyWheelConstants.RPM_TOLERANCE;
     }
+    public double getCurrent() {
+        return inputs.current;
+    }
 
     @Override
     public void periodic() {
@@ -38,7 +41,6 @@ public class flyWheelsubsystem extends SubsystemBase {
         Logger.processInputs("Shooter/Flywheel", inputs);
         Logger.recordOutput("Shooter/Flywheel/TargetRPM", targetRPM);
         Logger.recordOutput("Shooter/Flywheel/AtSpeed", atSpeed());
-        Logger.recordOutput("shooter/flywheel/RPM", inputs.currentRPM);
     }
     public void setVoltage(Voltage voltage) {
         targetRPM = 0;

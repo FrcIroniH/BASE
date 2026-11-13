@@ -2,37 +2,41 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.shooter.flywheel;
+package frc.robot.subsystems.Intake.rackAndPinion;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionConstants.rackAndPinionState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class flywheelTuning extends Command {
-  private final flyWheelsubsystem flywheel;
-  private final DoubleSupplier RPM;
-  /** Creates a new flywheelTuning. */
-  public flywheelTuning(flyWheelsubsystem flywheel, DoubleSupplier RPM) {
-    this.flywheel = flywheel;
-    this.RPM = RPM;
-    addRequirements(flywheel);
+public class CycleIntake extends Command {
+  private final rackAndPinionSubsystem pinion;
+
+  public CycleIntake(rackAndPinionSubsystem pinion) {
+    this.pinion = pinion;
+    addRequirements(pinion);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.setRPMFromDistance(RPM.getAsDouble());
+    pinion.extendTo(rackAndPinionConstants.pinionRotation - (rackAndPinionConstants.rackAndPinionCloseAmoutWhenShooting * rackAndPinionConstants.pinionRotation));
+    pinion.extend();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    pinion.extend();
+  }
 
   // Returns true when the command should end.
   @Override

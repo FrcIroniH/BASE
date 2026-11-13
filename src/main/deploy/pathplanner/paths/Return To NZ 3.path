@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.065056818181818,
+        "x": 3.117905740609497,
         "y": 0.8304830053667263
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9629555555555553,
+        "x": 4.0158044779832345,
         "y": 0.7316333333333318
       },
       "isLocked": false,
@@ -75,7 +75,7 @@
   "folder": "Rush NZ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.41859507143235
+    "rotation": -115.1202883025662
   },
   "useDefaultConstraints": true
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.065056818181818,
-        "y": 2.664193181818182
+        "x": 3.2432530120481933,
+        "y": 2.617611622962438
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.14921987722785,
-        "y": 1.906067517645257
+        "x": 4.596663328573048,
+        "y": 2.248933293635287
       },
       "isLocked": false,
       "linkedName": "Rush NZ Return Bump End"
@@ -20,12 +20,12 @@
         "y": 3.1531277777777778
       },
       "prevControl": {
-        "x": 5.2346055555555555,
-        "y": 2.695138888888888
+        "x": 5.590113380452891,
+        "y": 2.495742186782831
       },
       "nextControl": {
-        "x": 6.56068613363752,
-        "y": 3.2944253039836235
+        "x": 6.45607660110213,
+        "y": 3.361009379446611
       },
       "isLocked": false,
       "linkedName": null
@@ -36,40 +36,40 @@
         "y": 2.939785330948122
       },
       "prevControl": {
-        "x": 7.374948112616793,
-        "y": 3.8473653127649516
+        "x": 7.533349836222969,
+        "y": 3.7652110776482792
       },
       "nextControl": {
-        "x": 8.328490449496394,
-        "y": 2.239063616138086
+        "x": 8.183470277111672,
+        "y": 2.351888891704392
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.095796064400715,
-        "y": 0.6682289803220032
-      },
-      "prevControl": {
-        "x": 7.675021459492871,
-        "y": 0.7428151364942074
-      },
-      "nextControl": {
-        "x": 5.226163820980159,
-        "y": 0.6271566124879203
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.065056818181818,
+        "x": 6.106956059532247,
         "y": 0.8304830053667263
       },
       "prevControl": {
-        "x": 2.7505835200700997,
-        "y": 0.8676705397958341
+        "x": 7.737417476013941,
+        "y": 1.2850141169997076
+      },
+      "nextControl": {
+        "x": 5.184260189817686,
+        "y": 0.5732588998950906
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.117905740609497,
+        "y": 0.8304830053667263
+      },
+      "prevControl": {
+        "x": 2.778689864103152,
+        "y": 0.8619329215999724
       },
       "nextControl": null,
       "isLocked": false,
@@ -78,37 +78,38 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
+      "waypointRelativePos": 0.6735504368546424,
+      "rotationDegrees": -135.0
+    },
+    {
+      "waypointRelativePos": 0.87,
       "rotationDegrees": 0.0
     },
     {
       "waypointRelativePos": 2.0,
-      "rotationDegrees": -79.69515353123396
-    }
-  ],
-  "constraintZones": [],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 2.5,
-        "y": 1.2
-      },
-      "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.35,
-      "maxWaypointRelativePos": 0.8,
-      "name": "Point Towards Zone"
+      "rotationDegrees": -90.73880608293335
     },
     {
-      "fieldPosition": {
-        "x": 7.0,
-        "y": 0.65
-      },
-      "rotationOffset": 0.0,
-      "minWaypointRelativePos": 3.0237288135593205,
-      "maxWaypointRelativePos": 3.6474576271186394,
-      "name": "Point Towards Zone"
+      "waypointRelativePos": 3.566960705693658,
+      "rotationDegrees": 180.0
     }
   ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.5539331135186101,
+      "maxWaypointRelativePos": 1.5374470089495686,
+      "constraints": {
+        "maxVelocity": 6.0,
+        "maxAcceleration": 6.0,
+        "maxAngularVelocity": 720.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
@@ -120,7 +121,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.41859507143235
+    "rotation": -115.1202883025662
   },
   "reversed": false,
   "folder": "Rush NZ",

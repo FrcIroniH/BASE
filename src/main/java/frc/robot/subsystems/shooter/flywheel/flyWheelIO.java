@@ -7,6 +7,7 @@ public interface flyWheelIO {
     class flyWheelInputs {
         double currentRPM;
         double distanceToHub;
+        double current;
     }
     void setRPM(double RPM);
     void update(flyWheelInputs inputs);
