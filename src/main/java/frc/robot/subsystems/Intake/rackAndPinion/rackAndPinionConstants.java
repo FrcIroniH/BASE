@@ -17,17 +17,19 @@ public class rackAndPinionConstants {
     public static final double STALL_TIME = 0.15;
     public static boolean isExtended = false;
     public static final double ShootTime = 5;
+    public static final double rackAndPinionCloseAmoutWhenShooting = 50;
 
     private static final Debouncer stallCurrentDebouncer = new Debouncer(STALL_TIME, DebounceType.kRising);
     private static final Debouncer stallEnchoderDebouncer = new Debouncer(STALL_TIME, DebounceType.kRising);
 
     private static double lastEnchoderPosition = 0;
 
-    enum rackAndPinionState {
+    public static enum rackAndPinionState {
         OPEN, 
         HALF,
         CLOSE
     }
+    public static rackAndPinionState currentPinionState;
     public static double getCurrent(MarinersTalonFX motor) {
         return Math.abs(motor.getMotor().getStatorCurrent().getValueAsDouble());
     }

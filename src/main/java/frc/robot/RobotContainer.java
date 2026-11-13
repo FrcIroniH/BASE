@@ -99,10 +99,14 @@ public class RobotContainer {
     public static boolean intakeExtended = false;
     public static boolean isCyclingIntake = false;
     public static boolean isShooting = false;
+    public static boolean PreWarm;
+
 
     public static LoggedDashboardChooser<Command> autoChooser;
     public static LoggedDashboardChooser<String> sideChooser;
+    public static LoggedDashboardChooser<Boolean> preWarm;
     public static HashMap<String, Command> mirroredAutoMap = new HashMap<>();
+
  
     //#region Premade Commands
     public static Supplier<Command> intakeWithSlowDrive;
@@ -178,14 +182,14 @@ public class RobotContainer {
             Commands.parallel(
                 new StartEndCommand(() -> isShooting = true, () -> isShooting = false),
                 new flyWheelCommand(flywheel, RobotContainer::passDistance),
-                new openHood(hood, () -> nearTrench() ? 0 : passDistance()),
+                new openHood(hood, () -> passDistance()),
                 new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle)
             ).withName("Pass");
         shoot = () ->
             Commands.parallel(
                 new StartEndCommand(() -> isShooting = true, () -> isShooting = false),
                 new flyWheelCommand(flywheel, RobotContainer::distanceFromHub),
-                new openHood(hood, () -> nearTrench() ? 0 : distanceFromHub()),
+                new openHood(hood, () -> distanceFromHub()),
                 new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle)
             ).withName("Shoot");
         shootWhileAuto = () -> Commands.runOnce(() -> {
@@ -246,7 +250,11 @@ public class RobotContainer {
         
         new Trigger(() -> ((HubTracker.isActive(Robot.isRedAlliance ? Alliance.Red : Alliance.Blue)) && !isShooting)) 
             .whileTrue(warmpupshooterMin.get());
+        new Trigger(() ->(PreWarm && !isShooting))
+            .whileTrue(warmpupshooterMin.get());
         }
+
+  
         
     public static void configureDriveBindings() {
         new Trigger(RobotState::isTeleop).and(RobotState::isEnabled).whileTrue(
@@ -408,10 +416,6 @@ public class RobotContainer {
     //#endregion
  
     //#region Trench Helpers
-    public static boolean nearTrench() {
-        return getDistanceToNearestTrench() <= Constants.FieldConstants.DISTANCE_FROM_TRENCH_TO_CLOSE_HOOD;
-    }
- 
     public static Pose2d NearestTrench() {
         Pose2d upTrench;
         Pose2d downTrench;
@@ -446,6 +450,7 @@ public class RobotContainer {
         public static Boolean areBallsGoingIntoShooter() {
         return currentJumpsInFlywheel.calculate(flywheel.getCurrent() > flyWheelConstants.CURRENT_WHEN_SHOOTING);
     }
+
     //#endregion
  
     //#region Periodic Updates
@@ -456,7 +461,11 @@ public class RobotContainer {
  
     public static void updateElastic() {
         Alliance alliance = Robot.isRedAlliance ? Alliance.Red : Alliance.Blue;
- 
+        preWarm = new LoggedDashboardChooser<>("preWarm?");
+        preWarm.addDefaultOption("OFF", PreWarm = false);
+        preWarm.addOption("ON", PreWarm = true);
+        SmartDashboard.putData("preWarm?",preWarm.getSendableChooser());
+
         SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
         SmartDashboard.putNumber("Robot Velocity", driveBase.getVelocity());
         SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
@@ -471,8 +480,8 @@ public class RobotContainer {
         SmartDashboard.putNumber("Fuel Approximation", fuelApproximation);
         SmartDashboard.putNumber("Distance to Hub", distanceFromHub());
         SmartDashboard.putBoolean("In Alliance Zone", inAllianceZone());
-        SmartDashboard.putBoolean("Near Trench", nearTrench());
         SmartDashboard.putBoolean("Ready To Shoot", readyToShoot());
+        SmartDashboard.putString("intakeState", rackAndPinion.rackAndPinionState().name());
     }
     //#endregion
 }

@@ -7,12 +7,12 @@ package frc.robot.subsystems.Intake.rackAndPinion;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Intake.rackAndPinion.rackAndPinionConstants.rackAndPinionState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CycleIntake extends Command {
   private final rackAndPinionSubsystem pinion;
-  double rackAndPinionCloseAmout = 30;
-  double Cycels = 0;
+
   public CycleIntake(rackAndPinionSubsystem pinion) {
     this.pinion = pinion;
     addRequirements(pinion);
@@ -28,12 +28,8 @@ public class CycleIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pinion.extendTo(rackAndPinionConstants.pinionRotation - (rackAndPinionCloseAmout * rackAndPinionConstants.pinionRotation));
+    pinion.extendTo(rackAndPinionConstants.pinionRotation - (rackAndPinionConstants.rackAndPinionCloseAmoutWhenShooting * rackAndPinionConstants.pinionRotation));
     pinion.extend();
-    Cycels ++;
-    if (rackAndPinionCloseAmout != 80) {
-          rackAndPinionCloseAmout += Cycels * 10;
-    }
   }
 
   // Called once the command ends or is interrupted.
