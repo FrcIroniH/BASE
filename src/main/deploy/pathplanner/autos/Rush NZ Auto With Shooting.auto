@@ -109,6 +109,12 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Return To NZ 3"
+          }
         }
       ]
     }

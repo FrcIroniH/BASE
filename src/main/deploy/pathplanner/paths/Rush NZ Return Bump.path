@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.785579545454546,
-        "y": 3.612420454545455
+        "x": 7.781467044649185,
+        "y": 3.414691708008504
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.006834374393007,
-        "y": 3.8016224006966675
+        "x": 7.970986221977798,
+        "y": 3.5777330568274026
       },
       "isLocked": false,
       "linkedName": "Rush NZ Collect End"
@@ -20,12 +20,12 @@
         "y": 2.7672613636363645
       },
       "prevControl": {
-        "x": 6.347796191140475,
-        "y": 2.8919979387793364
+        "x": 6.477471804749681,
+        "y": 2.954123781629037
       },
       "nextControl": {
-        "x": 4.743517818737406,
-        "y": 2.6043680215298814
+        "x": 5.0729087783703335,
+        "y": 2.6361459632131226
       },
       "isLocked": false,
       "linkedName": null
@@ -36,22 +36,28 @@
         "y": 2.664193181818182
       },
       "prevControl": {
-        "x": 2.598867988542713,
-        "y": 2.677730971052363
+        "x": 2.7263808451776668,
+        "y": 2.6839705676748107
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Rush NZ Return Bump End"
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 45.0
+      "fieldPosition": {
+        "x": 6.2,
+        "y": 1.0
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 1.0852567121997125,
+      "maxWaypointRelativePos": 1.4510791366906446,
+      "name": "Point Towards Zone"
     }
   ],
-  "constraintZones": [],
-  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
@@ -63,7 +69,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 43.958373323990024
+    "rotation": -129.7225912514285
   },
   "reversed": false,
   "folder": "Rush NZ",

@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.771288014311271,
-        "y": 2.777531305903399
+        "x": 6.248027777777778,
+        "y": 3.1531277777777778
       },
       "prevControl": {
-        "x": 4.715625571550293,
-        "y": 2.1835564762390165
+        "x": 5.2346055555555555,
+        "y": 2.695138888888888
       },
       "nextControl": {
-        "x": 6.070308982377439,
-        "y": 2.9457772540197853
+        "x": 6.56068613363752,
+        "y": 3.2944253039836235
       },
       "isLocked": false,
       "linkedName": null
@@ -73,10 +73,14 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Rush NZ Psrt 2 Return Trench End"
     }
   ],
   "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    },
     {
       "waypointRelativePos": 2.0,
       "rotationDegrees": -79.69515353123396
@@ -86,8 +90,8 @@
   "pointTowardsZones": [
     {
       "fieldPosition": {
-        "x": 6.5,
-        "y": 4.0
+        "x": 2.5,
+        "y": 1.2
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 0.35,
@@ -116,13 +120,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.04930183878142
+    "rotation": -119.41859507143235
   },
   "reversed": false,
   "folder": "Rush NZ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 43.958373323990024
+    "rotation": -129.7225912514285
   },
   "useDefaultConstraints": true
 }
