@@ -188,7 +188,12 @@ public class RobotContainer {
                 new openHood(hood, () -> nearTrench() ? 0 : distanceFromHub()),
                 new AimDriving(driveBase, driveController, RobotContainer::getShootingAngle)
             ).withName("Shoot");
- 
+        shootWhileAuto = () -> Commands.runOnce(() -> {
+        if (areBallsGoingIntoShooter()) {
+            CommandScheduler.getInstance().schedule(shoot.get());
+        } 
+        });
+
         feed = () ->
             new transferOn(transfer)
                 .beforeStarting(getAuto())

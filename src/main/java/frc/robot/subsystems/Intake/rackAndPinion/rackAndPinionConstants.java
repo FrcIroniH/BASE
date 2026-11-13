@@ -23,6 +23,11 @@ public class rackAndPinionConstants {
 
     private static double lastEnchoderPosition = 0;
 
+    enum rackAndPinionState {
+        OPEN, 
+        HALF,
+        CLOSE
+    }
     public static double getCurrent(MarinersTalonFX motor) {
         return Math.abs(motor.getMotor().getStatorCurrent().getValueAsDouble());
     }
